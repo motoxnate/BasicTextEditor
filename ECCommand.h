@@ -31,8 +31,10 @@ public:
     void Execute();
     void UnExecute();
 private:
-    int cursorX, cursorY;
+    int cx, cy;
+    int origCX, origCY;
     char c;
+    vector<vector<char>> origDocument;
 };
 
 class BackspaceCommand : public ECCommand {

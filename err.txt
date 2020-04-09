@@ -1,43 +1,66 @@
 Program Start
-Arrow Right x=1 y=3
-Arrow Right x=1 y=6
-Arrow Right x=2 y=6
-Arrow Right x=3 y=6
-Arrow Right x=4 y=6
-Arrow Right x=5 y=6
-Arrow Right x=6 y=6
-Arrow Right x=1 y=9
-Arrow Right x=2 y=9
-Arrow Right x=3 y=9
-Arrow Right x=4 y=9
-Arrow Right x=1 y=10
+Arrow Right x=1 y=0
+Arrow Right x=2 y=0
+Arrow Right x=3 y=0
+Arrow Right x=4 y=0
+Arrow Right x=5 y=0
+Arrow Right x=6 y=0
+Arrow Right x=7 y=0
+Arrow Right x=8 y=0
+Arrow Right x=9 y=0
+Arrow Right x=10 y=0
+Arrow Right x=11 y=0
+Arrow Right x=12 y=0
+Arrow Right x=13 y=0
+Arrow Right x=14 y=0
+Arrow Right x=15 y=0
+Arrow Right x=16 y=0
+Arrow Right x=17 y=0
+Arrow Right x=18 y=0
+Arrow Right x=0 y=1
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Undo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
 Arrow Down
-x=1 y=11
-Arrow Right x=2 y=11
-Arrow Down
-x=0 y=14
-Arrow Up
-x=0 y=20
-Arrow Up
-x=0 y=23
-Arrow Up
-x=0 y=22
-Arrow Up
-x=0 y=21
-Arrow Down
-x=0 y=27
-Arrow Down
-x=0 y=28
-Arrow Down
-x=0 y=29
-Arrow Down
-x=0 y=30
-Arrow Down
-Cursor has reached end of document
-x=0 y=30
-Arrow Down
-Cursor has reached end of document
-x=0 y=30
+x=0 y=2
 Undo
 Undo
 Undo
@@ -64,15 +87,34 @@ Undo
 Undo
 Undo
 Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Redo
+Arrow Right x=16 y=2

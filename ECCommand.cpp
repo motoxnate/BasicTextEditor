@@ -20,8 +20,8 @@ ECCommand ::ECCommand(ECTextDocument *doc, vector<vector<char>> &docRef)
 InsertCharCommand ::InsertCharCommand(ECTextDocument *doc, int cursorX, int cursorY, char c)
     : ECCommand(doc, doc->document)
 {
-    this->cursorX = cursorX;
-    this->cursorY = cursorY;
+    this->cx = cursorX;
+    this->cy = cursorY;
     this->c = c;
 }
 
@@ -32,20 +32,28 @@ InsertCharCommand ::~InsertCharCommand()
 
 void InsertCharCommand ::Execute()
 {
+    // Store for undo
+    origCX = cx;
+    origCY = cy;
+    origDocument = document;
     // If the line does not yet exist, add a new line
-    if(cursorY == document.size()) {
+    if ((doc->GetNumRows() == 0) || (cy == document.size()))
+    {
         vector<char> vec;
         document.push_back(vec);
     }
-    document[cursorY].insert(document[cursorY].begin() + cursorX, c);
-    // StepCursorForward();
+    document[cy].insert(document[cy].begin() + cx, c);
+    textView->SetCursorX(cx);
+    textView->SetCursorY(cy);
 }
 
 void InsertCharCommand ::UnExecute()
 {
-    document[cursorY].erase(document[cursorY].begin() + cursorX);
-    textView->SetCursorX(cursorX);
-    textView->SetCursorY(cursorY);
+    document = origDocument;
+    textView->SetCursorX(origCX);
+    textView->SetCursorY(origCY);
+    cx = origCX;
+    cy = origCY;
 }
 
 // –––––––––––––––––––
@@ -69,7 +77,7 @@ void BackspaceCommand::Execute()
     origDocument = document;
     cx -= 1;
     // If the cursor has reached the beginning of a line.
-    if (cx < 0)
+    if (cx < 0) // cx is < 0 and must be reset to a correct integer
     {
         cy -= 1;
         if (cy < 0)
@@ -77,24 +85,27 @@ void BackspaceCommand::Execute()
             cerr << "Cursor reached first character" << endl;
             return;
         }
-        else // Set cursorX to last char of previous row
+        // Cursor can go back to the previous line
+        // Set cx to the end of the previous line
+        cx = doc->GetLenRow(cy);
+        // Check if the cursor was on the last line of the document.
+        if (!(cy + 1 == doc->GetNumRows()))
         {
-            cx = doc->GetLenRow(cy) - 1;
-            // Check if the cursor was on the last line of the document.
-            if(!cy + 1 == document.size()) {
-                // If line not empty, copy the remaining text to the row above
-                if (!document[cy + 1].empty())
-                {
-                    document[cy].insert(document[cy].begin() + cx,
-                                        document[cy + 1].begin(),
-                                        document[cy + 1].end());
-                }
-                // Then erase the line below it
-                document.erase(document.begin() + cy + 1);
-            } else ; // Pass completely if the cursor was past the last line.
+            // If line not empty, copy the remaining text to the row above
+            if (!document[cy + 1].empty())
+            {
+                document[cy].insert(document[cy].begin() + cx,
+                                    document[cy + 1].begin(),
+                                    document[cy + 1].end());
+            }
+        // Erase the line
+        document.erase(document.begin() + cy + 1);
         }
-    } //TODO: Error checking for blank lines
-    document[cy].erase(document[cy].begin() + cx);
+    }
+    else // If a line was not removed, remove a character
+    {
+        document[cy].erase(document[cy].begin() + cx);
+    }
     textView->SetCursorX(cx);
     textView->SetCursorY(cy);
 }
@@ -103,6 +114,8 @@ void BackspaceCommand::UnExecute()
 {
     textView->SetCursorX(origCX);
     textView->SetCursorY(origCY);
+    cx = origCX;
+    cy = origCY;
     document = origDocument;
 }
 
@@ -115,25 +128,28 @@ NewlineCommand ::NewlineCommand(ECTextDocument *doc, int cx, int cy)
     this->cy = cy;
 }
 
-NewlineCommand ::~NewlineCommand() {
+NewlineCommand ::~NewlineCommand()
+{
     delete doc;
 }
 
-void NewlineCommand ::Execute() {
+void NewlineCommand ::Execute()
+{
     origCX = cx;
     origCY = cy;
     origDocument = document;
 
     // If the cursor is on the last line, just append a blank line
-    if(cy == document.size()) {
+    if (cy == document.size())
+    {
         vector<char> newline;
         document.push_back(newline);
         cy += 1;
-    } 
+    }
     else //The cursor is not on the last line
     {
         // Copy remaining characters from after cursor to newline
-        vector<char> newline(document[cy].begin()+cx, document[cy].end());
+        vector<char> newline(document[cy].begin() + cx, document[cy].end());
         // Erase those characters from the line
         document[cy].erase(document[cy].begin() + cx, document[cy].end());
         // Move cursor to the next line.
@@ -148,9 +164,12 @@ void NewlineCommand ::Execute() {
     textView->SetCursorY(cy);
 }
 
-void NewlineCommand ::UnExecute() {
+void NewlineCommand ::UnExecute()
+{
     textView->SetCursorX(origCX);
     textView->SetCursorY(origCY);
+    cx = origCX;
+    cy = origCY;
     document = origDocument;
 }
 

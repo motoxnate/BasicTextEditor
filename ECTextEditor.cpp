@@ -250,18 +250,3 @@ void ECTextEditor ::AddRow(string row)
     UpdateTextDisplay();
     textView.Refresh();
 }
-
-// *********************************************
-// Main Sequence
-
-int main(int argc, char *argv[])
-{
-    cerr << "Program Start" << endl;
-    // Initialize items
-    ECTextViewImp textView;
-    ECTextDocument textDocument(&textView);
-    ECTextDocumentCtrl textDocumentCtrl = textDocument.GetCtrl();
-
-    ECTextEditor textEditor(textView, textDocument, textDocumentCtrl);
-    return 0;
-}
