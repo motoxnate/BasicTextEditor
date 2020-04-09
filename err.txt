@@ -1,40 +1,12 @@
 Program Start
 Arrow Down
 x=0 y=1
-Arrow Right x=1 y=1
-Arrow Right x=2 y=1
-Arrow Right x=3 y=1
-Arrow Right x=4 y=1
-Arrow Right x=14 y=0
-Arrow Right x=15 y=0
-Arrow Right x=16 y=0
-Arrow Right x=17 y=0
-Arrow Right x=18 y=0
-Arrow Right x=19 y=0
-Arrow Right x=20 y=0
-Arrow Right x=21 y=0
-Arrow Right x=22 y=0
-Arrow Right x=23 y=0
-Arrow Right x=24 y=0
-Arrow Right x=25 y=0
-Arrow Right x=26 y=0
-Arrow Right x=27 y=0
-Arrow Right x=28 y=0
-Arrow Right x=29 y=0
-Arrow Right x=30 y=0
-Arrow Right x=31 y=0
-Arrow Right x=32 y=0
-Arrow Right x=33 y=0
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
+Arrow Down
+x=0 y=2
+Arrow Down
+Cursor has reached end of document
+x=0 y=2
+Arrow Down
+x=0 y=2
 Undo
 Undo

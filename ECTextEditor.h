@@ -12,28 +12,24 @@ class ECTextEditor : public ECObserver
 public:
     ECTextEditor(ECTextViewImp &view, ECTextDocument &doc, ECTextDocumentCtrl &ctrl);
     ~ECTextEditor();
-    bool StepCursorForward();
-    bool StepCursorBack();
-    bool StepCursorUp();
-    bool StepCursorDown();
 
     void Update();
 
 private:
     void ParseKeyCode(int c);
-    bool SCF();
-    bool SCB();
-    bool SCU();
-    bool SCD();
-    bool SetCursorLineEnd();            // Used to place the cursor after undo / redo.
-    bool UpdateCursor(int cx, int cy);   // Update cursor position if valid.
-    
-    void UpdateTextDisplay();       // Add the document text to the view.
-    void AddRow(string row);        // Add a new row for testing purposes.
+    bool StepCursorForward();
+    bool StepCursorBack();
+    bool StepCursorUp();
+    bool StepCursorDown();
+    bool SetCursorLineEnd();           // Used to place the cursor after undo / redo.
+    bool UpdateCursor(int cx, int cy); // Update cursor position if valid.
+
+    void UpdateTextDisplay(); // Add the document text to the view.
+    void AddRow(string row);  // Add a new row for testing purposes.
 
     ECTextViewImp &textView;     // The text view instance displays the text.
     ECTextDocument &document;    // The TextDocument holds all the text data.
-    ECTextDocumentCtrl &docCtrl;   // The Document Controller controls the text document.
+    ECTextDocumentCtrl &docCtrl; // The Document Controller controls the text document.
 };
 
 #endif

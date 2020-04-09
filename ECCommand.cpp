@@ -9,49 +9,57 @@ using namespace std;
 
 // ECCommand
 ECCommand ::ECCommand(ECTextDocument *doc, vector<vector<char>> &docRef)
-: document(docRef)
+    : document(docRef)
 {
-  this->doc = doc;
-  textView = doc->GetTextView();
+    this->doc = doc;
+    textView = doc->GetTextView();
 }
 
 // –––––––––––––––––––
 // InsertCharCommand
-InsertCharCommand ::InsertCharCommand(ECTextDocument *doc, int cursorX, int cursorY, char c) 
-: ECCommand(doc, doc->document)
+InsertCharCommand ::InsertCharCommand(ECTextDocument *doc, int cursorX, int cursorY, char c)
+    : ECCommand(doc, doc->document)
 {
-  this->cursorX = cursorX;
-  this->cursorY = cursorY;
-  this->c = c;
+    this->cursorX = cursorX;
+    this->cursorY = cursorY;
+    this->c = c;
 }
 
 InsertCharCommand ::~InsertCharCommand()
 {
-  delete doc;
+    delete doc;
 }
 
 void InsertCharCommand ::Execute()
 {
-  document[cursorY].insert(document[cursorY].begin() + cursorX, c);
+    // If the line does not yet exist, add a new line
+    if(cursorY == document.size()) {
+        vector<char> vec;
+        document.push_back(vec);
+    }
+    document[cursorY].insert(document[cursorY].begin() + cursorX, c);
+    // StepCursorForward();
 }
 
 void InsertCharCommand ::UnExecute()
 {
-  document[cursorY].erase(document[cursorY].begin() + cursorX);
-  return;
+    document[cursorY].erase(document[cursorY].begin() + cursorX);
+    textView->SetCursorX(cursorX);
+    textView->SetCursorY(cursorY);
 }
 
 // –––––––––––––––––––
 // BackspaceCommand
-BackspaceCommand:: BackspaceCommand(ECTextDocument *doc, int cx, int cy)
-: ECCommand(doc, doc->document)
+BackspaceCommand::BackspaceCommand(ECTextDocument *doc, int cx, int cy)
+    : ECCommand(doc, doc->document)
 {
-  this->cx = cx;
-  this->cy = cy;
+    this->cx = cx;
+    this->cy = cy;
 }
 
-BackspaceCommand :: ~BackspaceCommand() {
-  delete doc;
+BackspaceCommand ::~BackspaceCommand()
+{
+    delete doc;
 }
 
 void BackspaceCommand::Execute()
@@ -68,19 +76,23 @@ void BackspaceCommand::Execute()
         { // Cursor cannot go back further
             cerr << "Cursor reached first character" << endl;
             return;
-        } // Set cursorX to last char of previous row
-        else
+        }
+        else // Set cursorX to last char of previous row
         {
             cx = doc->GetLenRow(cy) - 1;
-            // If line not empty, copy the remaining text to the row above
-            if(!document[cy+1].empty()) {
-                document[cy].insert(document[cy].begin()+cx, 
-                                    document[cy+1].begin(), 
-                                    document[cy+1].end());
-            }
-            // Then erase the line below it
-            document.erase(document.begin()+cy+1);
-        } 
+            // Check if the cursor was on the last line of the document.
+            if(!cy + 1 == document.size()) {
+                // If line not empty, copy the remaining text to the row above
+                if (!document[cy + 1].empty())
+                {
+                    document[cy].insert(document[cy].begin() + cx,
+                                        document[cy + 1].begin(),
+                                        document[cy + 1].end());
+                }
+                // Then erase the line below it
+                document.erase(document.begin() + cy + 1);
+            } else ; // Pass completely if the cursor was past the last line.
+        }
     } //TODO: Error checking for blank lines
     c = document[cy][cx];
     document[cy].erase(document[cy].begin() + cx);
@@ -88,7 +100,8 @@ void BackspaceCommand::Execute()
     textView->SetCursorY(cy);
 }
 
-void BackspaceCommand:: UnExecute() {
+void BackspaceCommand::UnExecute()
+{
     textView->SetCursorX(origCX);
     textView->SetCursorY(origCY);
     document = origDocument;
@@ -100,41 +113,42 @@ ECCommandHistory ::ECCommandHistory() {}
 
 ECCommandHistory ::~ECCommandHistory()
 {
-  while (!history.empty())
-  {
-    history.pop();
-  }
-  while (!future.empty())
-  {
-    future.pop();
-  }
+    while (!history.empty())
+    {
+        history.pop();
+    }
+    while (!future.empty())
+    {
+        future.pop();
+    }
 }
 
 bool ECCommandHistory ::Undo()
 {
-  if (history.empty())
-    return false;
-  // If there is history to undo
-  history.top()->UnExecute();
-  future.push(history.top());
-  history.pop();
-  return true;
+    if (history.empty())
+        return false;
+    // If there is history to undo
+    history.top()->UnExecute();
+    future.push(history.top());
+    history.pop();
+    return true;
 }
 
 bool ECCommandHistory ::Redo()
 {
-  if (future.empty())
-    return false;
-  // If there is something to redo
-  future.top()->Execute();
-  history.push(future.top());
-  future.pop();
-  return true;
+    if (future.empty())
+        return false;
+    // If there is something to redo
+    future.top()->Execute();
+    history.push(future.top());
+    future.pop();
+    return true;
 }
 
 void ECCommandHistory ::ExecuteCmd(ECCommand *pCmd)
 {
-  while(!future.empty()) future.pop();  // No redo after new changes are made
-  pCmd->Execute();
-  history.push(pCmd);
+    while (!future.empty())
+        future.pop(); // No redo after new changes are made
+    pCmd->Execute();
+    history.push(pCmd);
 }
