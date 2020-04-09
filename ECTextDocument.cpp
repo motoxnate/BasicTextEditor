@@ -24,6 +24,12 @@ void ECTextDocumentCtrl::Backspace(int cx, int cy)
     histCmds.ExecuteCmd(cmd);
 }
 
+void ECTextDocumentCtrl::Newline(int cx, int cy)
+{
+    NewlineCommand *cmd = new NewlineCommand(&doc, cx, cy);
+    histCmds.ExecuteCmd(cmd);
+}
+
 bool ECTextDocumentCtrl::Undo()
 {
     return histCmds.Undo();

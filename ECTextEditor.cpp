@@ -61,6 +61,10 @@ void ECTextEditor::ParseKeyCode(int c)
     { // Special Characters
         switch (c)
         {
+        case ENTER:
+            docCtrl.Newline(textView.GetCursorX(), textView.GetCursorY());
+            UpdateTextDisplay();
+            break;
         case CTRL_Q: // This is here because of the specification, but will never be called
             cerr << "Quit" << endl;
             textView.Quit();

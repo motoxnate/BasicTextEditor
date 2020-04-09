@@ -13,6 +13,7 @@ public:
     virtual ~ECTextDocumentCtrl();
     void Backspace(int cx, int cy);
     void InsertChar(int cx, int cy, char c);        // Insert a character
+    void Newline(int cx, int cy);                   // Insert a newline
 
     bool Undo();                                    // undo any change you did to the text
     bool Redo();                                    // redo the change to the text
@@ -28,6 +29,7 @@ to be run */
 class ECTextDocument {
     friend class InsertCharCommand;
     friend class BackspaceCommand;
+    friend class NewlineCommand;
 public:
     ECTextDocument(ECTextViewImp *textView);
     ~ECTextDocument() {}
