@@ -5,6 +5,47 @@
 using namespace std;
 class ECTextDocument;
 
+/*  ******************************************************
+    Implement Commands */
+
+class InsertCharCommand : public ECCommand {
+public: 
+    InsertCharCommand(ECTextDocument *doc, int cursorX, int cursorY, char c);      // Move the cursor to the specified position
+    ~InsertCharCommand();
+    void Execute();
+    void UnExecute();
+private:
+    int cx, cy;
+    int origCX, origCY;
+    char c;
+    vector<vector<char>> origDocument;
+};
+
+class BackspaceCommand : public ECCommand {
+public:
+    BackspaceCommand(ECTextDocument *doc, int cx, int cy);
+    ~BackspaceCommand();
+    void Execute();
+    void UnExecute();
+private:
+    int cx, cy;
+    int origCX, origCY;
+    vector<vector<char>> origDocument;
+};
+
+class NewlineCommand : public ECCommand {
+public:
+    NewlineCommand(ECTextDocument *doc, int cx, int cy);
+    ~NewlineCommand();
+    void Execute();
+    void UnExecute();
+private:
+    int cx, cy;
+    int origCX, origCY;
+    vector<vector<char>> origDocument;
+
+};
+
 /* ECTextDocCtrl Class. This is the controller that can issue commands to the text
  document */
 class ECTextDocumentCtrl {

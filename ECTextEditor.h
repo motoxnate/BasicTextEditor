@@ -3,9 +3,9 @@
 #ifndef ECTextEditor_h
 #define ECTextEditor_h
 
-#include "ECTextViewImp.cpp"
-#include "ECTextDocument.cpp"
-#include "ECCommand.cpp"
+#include "ECTextViewImp.h"
+#include "ECTextDocument.h"
+#include "ECCommand.h"
 
 class ECTextEditor : public ECObserver
 {

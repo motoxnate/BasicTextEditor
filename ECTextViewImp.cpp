@@ -22,7 +22,6 @@
 #include <string>
 #include <iostream>
 #include "ECTextViewImp.h"
-#include "ECObserver.h"
 
 using namespace  std;
 

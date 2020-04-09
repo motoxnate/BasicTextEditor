@@ -3,10 +3,12 @@
 
 #include <vector>
 #include <stack>
+#include <algorithm>
+#include <iostream>
 #include "ECTextViewImp.h"
+using namespace std;
 
 class ECTextDocument;
-
 
 class ECCommand
 {
@@ -19,47 +21,6 @@ protected:
     ECTextDocument *doc;
     ECTextViewImp *textView;
     vector<vector<char>> &document;
-};
-
-/* ******************************************************
-Implement Commands */
-
-class InsertCharCommand : public ECCommand {
-public: 
-    InsertCharCommand(ECTextDocument *doc, int cursorX, int cursorY, char c);      // Move the cursor to the specified position
-    ~InsertCharCommand();
-    void Execute();
-    void UnExecute();
-private:
-    int cx, cy;
-    int origCX, origCY;
-    char c;
-    vector<vector<char>> origDocument;
-};
-
-class BackspaceCommand : public ECCommand {
-public:
-    BackspaceCommand(ECTextDocument *doc, int cx, int cy);
-    ~BackspaceCommand();
-    void Execute();
-    void UnExecute();
-private:
-    int cx, cy;
-    int origCX, origCY;
-    vector<vector<char>> origDocument;
-};
-
-class NewlineCommand : public ECCommand {
-public:
-    NewlineCommand(ECTextDocument *doc, int cx, int cy);
-    ~NewlineCommand();
-    void Execute();
-    void UnExecute();
-private:
-    int cx, cy;
-    int origCX, origCY;
-    vector<vector<char>> origDocument;
-
 };
 
 // ******************************************************
