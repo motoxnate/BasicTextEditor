@@ -1,6 +1,7 @@
 #ifndef ECTextDocument_h
 #define ECTextDocument_h
 #include "ECCommand.h"
+#include "ECFileIO.h"
 
 using namespace std;
 class ECTextDocument;
@@ -72,8 +73,8 @@ class ECTextDocument {
     friend class BackspaceCommand;
     friend class NewlineCommand;
 public:
-    ECTextDocument(ECTextViewImp *textView);
-    ~ECTextDocument() {}
+    ECTextDocument(ECTextViewImp *textView, ECFileIO *fileIO);
+    ~ECTextDocument();
 
     ECTextDocumentCtrl GetCtrl();       // Get the document controller.
     ECTextViewImp* GetTextView();        // Get the view
@@ -86,6 +87,7 @@ private:
     vector<vector<char>> document;
     ECTextDocumentCtrl docCtrl;
     ECTextViewImp *textView;
+    ECFileIO *fileIO;
 };
 
 #endif

@@ -205,9 +205,20 @@ bool ECTextDocumentCtrl::Redo()
 
 /* ******************************************************
     Implement ECTextDocument */
-ECTextDocument::ECTextDocument(ECTextViewImp *textView) : docCtrl(*this)
+ECTextDocument::ECTextDocument(ECTextViewImp *textView, ECFileIO *fileIO) : docCtrl(*this)
 {
     this->textView = textView;
+    this->fileIO = fileIO;
+    // Read input file, if any
+    vector<string> readfile = fileIO->read();
+    for(int i=0; i<readfile.size(); i++) {
+        vector<char> line(readfile[i].begin(), readfile[i].end());
+        document.push_back(line);
+    }
+}
+
+ECTextDocument:: ~ECTextDocument() {
+    fileIO->write(GetAllRows());
 }
 
 ECTextDocumentCtrl ECTextDocument::GetCtrl()

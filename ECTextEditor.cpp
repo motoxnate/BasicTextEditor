@@ -17,10 +17,10 @@ ECTextEditor::ECTextEditor(ECTextViewImp &view, ECTextDocument &doc, ECTextDocum
     textView.Attach(this);
 
     textView.AddStatusRow("Test Left Message", "Test Right Message", false);
-    AddRow("This is a test row");
-    AddRow("This is a second test row");
-    // cerr << "Test TextEditor::AddRow()" << endl;
-    // cerr << "Document: " << document.GetAllRows().size() << endl;
+    // AddRow("This is a test row");
+    // AddRow("This is a second test row");
+    UpdateTextDisplay();
+
     textView.Show();
 }
 
