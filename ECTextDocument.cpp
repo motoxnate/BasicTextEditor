@@ -219,6 +219,7 @@ ECTextDocument::ECTextDocument(ECTextViewImp *textView, ECFileIO *fileIO) : docC
 
 ECTextDocument:: ~ECTextDocument() {
     fileIO->write(GetAllRows());
+    delete fileIO;
 }
 
 ECTextDocumentCtrl ECTextDocument::GetCtrl()

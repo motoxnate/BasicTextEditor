@@ -28,18 +28,5 @@ Undo
 Undo
 Undo
 Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Undo
-Redo
-Redo
-Redo
-Redo
-Redo
+
+Added new text to the end!

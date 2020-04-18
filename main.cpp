@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
 
     // Initialize items
     ECTextViewImp textView;     // Singleton
-    ECFileIO fileIO(path);      // Singleton
-    ECTextDocument textDocument(&textView, &fileIO);
+    ECFileIO *fileIO = new ECFileIO(path);      // Singleton
+    ECTextDocument textDocument(&textView, fileIO);
     ECTextDocumentCtrl textDocumentCtrl = textDocument.GetCtrl();
 
     ECTextEditor textEditor(textView, textDocument, textDocumentCtrl);
