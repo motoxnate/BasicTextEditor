@@ -2,6 +2,7 @@
 #define ECTextDocument_h
 #include "ECCommand.h"
 #include "ECFileIO.h"
+#include <sstream>
 
 using namespace std;
 class ECTextDocument;
@@ -77,17 +78,29 @@ public:
     ~ECTextDocument();
 
     ECTextDocumentCtrl GetCtrl();       // Get the document controller.
-    ECTextViewImp* GetTextView();        // Get the view
+    ECTextViewImp* GetTextView();       // Get the view
+
     int GetNumRows() const;             // Return the number of rows.
     int GetLenRow(int r) const;         // Return the length of a row. 0 if a row is empty.
+    int GetNumPages() const;            // Return the number of pages
+    bool NextPage();                    // Go to the next page
+    bool PrevPage();                    // Go to the previous page
     vector<string> GetAllRows();        // Return all the rows in the document as strings
     void AddRow(string row);            // Add a row to the document. Used for testing purposes
+    void FormatDocument();              // Format the document text and store in formattedDocument
+    vector<string> GetFormattedDocument();    // Returns the formatted document ready for display
+    vector<string> GetCurrentPage();      // Returns the formatted text to display a page.
 
 private:
     vector<vector<char>> document;
+    vector<string> formattedDocument;
+    int pages;
+    int currentPage;
     ECTextDocumentCtrl docCtrl;
     ECTextViewImp *textView;
     ECFileIO *fileIO;
+
+    void Newlines();                    // Search for newlines. Testing
 };
 
 #endif

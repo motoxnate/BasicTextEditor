@@ -37,7 +37,6 @@ Undo
 Undo
 Undo
 Undo
-Undo
 Redo
 Redo
 Redo

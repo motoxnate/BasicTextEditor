@@ -112,7 +112,7 @@ void BackspaceCommand::UnExecute()
 }
 
 // –––––––––––––––––––
-// NewlineCommand
+// NewlineCommand. Must add a character denoting a new line
 NewlineCommand ::NewlineCommand(ECTextDocument *doc, int cx, int cy)
     : ECCommand(doc, doc->document)
 {
@@ -136,6 +136,7 @@ void NewlineCommand ::Execute()
     if (cy == document.size())
     {
         vector<char> newline;
+        // if(!document[cy].empty()) document[cy].push_back('\n');
         document.push_back(newline);
         cy += 1;
     }
@@ -145,6 +146,8 @@ void NewlineCommand ::Execute()
         vector<char> newline(document[cy].begin() + cx, document[cy].end());
         // Erase those characters from the line
         document[cy].erase(document[cy].begin() + cx, document[cy].end());
+        // Insert the newline character
+        // document[cy].push_back('\n');
         // Move cursor to the next line.
         cy += 1;
         // Insert the characters into the next line
@@ -209,6 +212,7 @@ ECTextDocument::ECTextDocument(ECTextViewImp *textView, ECFileIO *fileIO) : docC
 {
     this->textView = textView;
     this->fileIO = fileIO;
+    currentPage = 0;
     // Read input file, if any
     vector<string> readfile = fileIO->read();
     for(int i=0; i<readfile.size(); i++) {
@@ -247,6 +251,26 @@ int ECTextDocument ::GetLenRow(int r) const
     return document[r].size();
 }
 
+int ECTextDocument:: GetNumPages() const {
+    return pages;
+}
+
+bool ECTextDocument:: NextPage() {
+    if(currentPage + 1 <= pages) {
+        currentPage++;
+        return true;
+    }
+    return false;
+}
+
+bool ECTextDocument:: PrevPage() {
+    if(currentPage - 1 >= 0) {
+        currentPage--;
+        return true;
+    }
+    return false;
+}
+
 // Turn document into a vector of strings and return
 vector<string> ECTextDocument::GetAllRows()
 {
@@ -259,6 +283,7 @@ vector<string> ECTextDocument::GetAllRows()
     return output;
 }
 
+/* Add a single row to the document (Used for testing) */
 void ECTextDocument ::AddRow(string row)
 {
     vector<char> newRow;
@@ -268,4 +293,67 @@ void ECTextDocument ::AddRow(string row)
     }
     document.push_back(newRow);
     return;
+}
+
+/* Format text and add to the formattedDocument */
+void ECTextDocument:: FormatDocument() {
+    formattedDocument.clear();
+    int line = -1;
+    int llen = textView->GetColNumInView();
+    for(string paragraph : GetAllRows()) {
+        formattedDocument.push_back("");
+        line++;
+        // Put the paragraph into a stream and split it into words. Append words to the line
+        // when there is space.
+        stringstream str(paragraph);
+        string word;
+        while(getline(str, word, ' ')) {
+            // If the word fits on the current line
+            if(formattedDocument[line].size() + word.size() <= llen) {
+                formattedDocument[line].append(word);
+            } else // If the word does not fit on the line
+            {
+                formattedDocument.push_back(word);
+                line++;
+            }
+            // Try to add a space after, or go to next line
+            if(formattedDocument[line].size() + 1 <= llen) 
+                formattedDocument[line].append(" ");
+            else {
+                formattedDocument.push_back("");
+                line++;
+            }
+        }
+    }
+    pages = formattedDocument.size() / textView->GetRowNumInView();
+}
+
+/* Return the formatted document ready for display */
+vector<string> ECTextDocument:: GetFormattedDocument() {
+    FormatDocument();
+    // Newlines();
+    return formattedDocument;
+}
+
+/* Return the formatted page to view */
+vector<string> ECTextDocument:: GetCurrentPage() {
+    FormatDocument();
+    vector<string> page;
+    int pagesize = textView->GetRowNumInView();
+    for(int i=0; i<pagesize && i<formattedDocument.size(); i++) {
+        page.push_back(formattedDocument[(currentPage * pagesize) + i]);
+    }
+    return page;
+}
+
+
+/* Private member functions */
+
+void ECTextDocument:: Newlines() {
+    for(int i=0; i<formattedDocument.size(); i++) {
+        for(int j=0; j<formattedDocument[i].size(); j++) {
+            if(formattedDocument[i][j] == '\n') cerr << "Newline at " << i << "," << j << endl;
+        }
+    }
+    exit(0);
 }

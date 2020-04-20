@@ -235,10 +235,11 @@ bool ECTextEditor ::UpdateCursor(int cx, int cy)
     return true;
 }
 
+/* Clear the view entirely. All all rows from the document one by one. */
 void ECTextEditor ::UpdateTextDisplay()
 {
     textView.InitRows();
-    for (string s : document.GetAllRows())
+    for (string s : document.GetCurrentPage())
         textView.AddRow(s);
     return;
 }

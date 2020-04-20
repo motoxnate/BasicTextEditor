@@ -1,3 +1,6 @@
+/*  ECFileIO
+    Written by: Nate Fanning */
+
 #include "ECFileIO.h"
 using namespace std;
 
@@ -26,6 +29,7 @@ vector<string> ECFileIO:: read() {
             cerr << "Read from file failed" << endl;
             exit(EXIT_FAILURE);
         }
+        // line.append("\n");          // Add newline characters to indicate paragraphs
         intext.push_back(line);
     }
     return intext;

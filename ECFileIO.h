@@ -1,3 +1,6 @@
+/*  ECFileIO
+    Written by: Nate Fanning */
+    
 #ifndef ECFileIO_h
 #define ECFileIO_h
 
