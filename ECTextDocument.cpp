@@ -212,6 +212,8 @@ ECTextDocument::ECTextDocument(ECTextViewImp *textView, ECFileIO *fileIO) : docC
 {
     this->textView = textView;
     this->fileIO = fileIO;
+    cx = 0;
+    cy = 0;
     currentPage = 0;
     // Read input file, if any
     vector<string> readfile = fileIO->read();
@@ -269,6 +271,69 @@ bool ECTextDocument:: PrevPage() {
         return true;
     }
     return false;
+}
+
+/* Step the document cursor forwards */
+CURSOR ECTextDocument:: StepCursorForward() {
+    int x = cx + 1;
+    int y = cy;
+    CURSOR bit = OK;
+    if(x > GetLenRow(y)) {
+        // Cursor next line
+        x = 0;
+        y += 1;
+        bit = NEWLINE;
+    }
+    if(!UpdateCursor(x, y)) return FAIL;
+    return bit;
+}
+
+/* Step the document cursor back */
+bool ECTextDocument:: StepCursorBack() {
+    int x = cx - 1;
+    int y = cy;
+    // If cursor reached beginning of a line
+    if(x < 0)
+    {
+        y -= 1;
+        if(y < 0)
+        {   // Cursor can't go back any further
+            cerr << "[Document] Cursor reached first character" << endl;
+            return false;
+        }   // Otherwise set cursor back to last char of previous row
+        else 
+        {
+            x = GetLenRow(y);
+        }
+    }
+    if(!UpdateCursor(x, y)) return false;
+    return true;
+}
+
+/* Step the document cursor up */
+bool ECTextDocument:: StepCursorUp() {
+    int x = cx;
+    int y = cy;
+    int llen = textView->GetColNumInView();
+    if(x / llen > 0) //  If > 0, step back x by pagelen
+    {
+        x -= llen;
+    } else  // Otherwise, must step back a row
+    {
+        y -= 1;
+        if(y < 0) {
+            cerr << "[Document] Cursor reached first line" << endl;
+            return false;
+        }
+        x = GetLenRow(y);
+    }
+    if(!UpdateCursor(x, y)) return false;
+    return true;
+}
+
+/* Step the document cursor down */
+bool ECTextDocument:: StepCursorDown() {
+
 }
 
 // Turn document into a vector of strings and return
@@ -348,6 +413,19 @@ vector<string> ECTextDocument:: GetCurrentPage() {
 
 
 /* Private member functions */
+bool ECTextDocument:: UpdateCursor(int x, int y) {
+    if(y > GetNumRows()) {
+        cerr << "[Document] Cursor out of bounds Y: " << y << endl;
+        return false;
+    }
+    else if (x > GetLenRow(y)) {
+        cerr << "[Document] Cursor out of bounds X: " << x << endl;
+        return false;
+    }
+    cx = x;
+    cy = y;
+    return true;
+}
 
 void ECTextDocument:: Newlines() {
     for(int i=0; i<formattedDocument.size(); i++) {

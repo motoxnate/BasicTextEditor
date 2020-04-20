@@ -17,7 +17,7 @@ ECTextEditor::ECTextEditor(ECTextViewImp &view, ECTextDocument &doc, ECTextDocum
     textView.Attach(this);
 
     textView.AddStatusRow("Test Left Message", "Test Right Message", false);
-    // AddRow("This is a test row");
+    // AddRow("\p");
     // AddRow("This is a second test row");
     UpdateTextDisplay();
 
@@ -90,7 +90,7 @@ void ECTextEditor::ParseKeyCode(int c)
         switch (c)
         {
         case ARROW_LEFT:
-            cerr << "Arrow Left" << endl;
+            cerr << "Arrow Left ";
             StepCursorBack();
             cerr << "x=" << textView.GetCursorX() << " y=" << textView.GetCursorY() << endl;
             break;
@@ -100,12 +100,12 @@ void ECTextEditor::ParseKeyCode(int c)
             cerr << "x=" << textView.GetCursorX() << " y=" << textView.GetCursorY() << endl;
             break;
         case ARROW_UP:
-            cerr << "Arrow Up" << endl;
+            cerr << "Arrow Up ";
             StepCursorUp();
             cerr << "x=" << textView.GetCursorX() << " y=" << textView.GetCursorY() << endl;
             break;
         case ARROW_DOWN:
-            cerr << "Arrow Down" << endl;
+            cerr << "Arrow Down ";
             StepCursorDown();
             cerr << "x=" << textView.GetCursorX() << " y=" << textView.GetCursorY() << endl;
             break;
@@ -113,34 +113,42 @@ void ECTextEditor::ParseKeyCode(int c)
     }
 }
 
+/* Must step cursor forward on the document AND in the formatted text view */
 bool ECTextEditor::StepCursorForward()
 {
-    int cursorX = textView.GetCursorX() + 1;
-    int cursorY = textView.GetCursorY();
+    CURSOR bit = document.StepCursorForward();
+    if(bit == FAIL) return false;
+    int cx = textView.GetCursorX() + 1;
+    int cy = textView.GetCursorY();
     // If cursor reaches end of window
-    if (cursorX > textView.GetColNumInView())
+    if (cx > textView.GetColNumInView())
     {
-        cursorX = 0;
-        cursorY += 1;
+        cx = 0;
+        cy += 1;
     } // If cursor reaches end of line.
-    else if (cursorX > document.GetLenRow(cursorY))
+    else if (bit == NEWLINE)
     {
         // Cursor next line
-        cursorX = 0;
-        cursorY += 1;
+        cx = 0;
+        cy += 1;
     } // Check Y position
-    if (cursorY > textView.GetRowNumInView())
+    if (cy > textView.GetRowNumInView())
     {
-        cerr << "Cursor out of bounds Y: " << cursorY << endl;
-        return false;
+        if(!document.NextPage()) {
+            cerr << "Cursor out of bounds Y: " << cy << endl;
+            return false;
+        }
+        cx = 0;
+        cy = 0;
     }
-    if (!UpdateCursor(cursorX, cursorY))
+    if (!UpdateCursor(cx, cy))
         return false;
     return true;
 }
 
 bool ECTextEditor ::StepCursorBack()
 {
+    if(!document.StepCursorBack()) return false;
     int cx = textView.GetCursorX() - 1;
     int cy = textView.GetCursorY();
     // If the cursor has reached the beginning of a line.
@@ -154,7 +162,7 @@ bool ECTextEditor ::StepCursorBack()
         } // Set cursorX to last char of previous row
         else
         {
-            cx = document.GetLenRow(cy);
+            cx = document.GetFormattedDocument()[cy].size();
         }
     }
     if (!UpdateCursor(cx, cy))
@@ -164,6 +172,7 @@ bool ECTextEditor ::StepCursorBack()
 
 bool ECTextEditor ::StepCursorUp()
 {
+    if(!document.StepCursorUp()) return false;
     int cx = textView.GetCursorX();
     int cy = textView.GetCursorY() - 1;
     // If cursor has hit beginning of document
@@ -172,9 +181,9 @@ bool ECTextEditor ::StepCursorUp()
         cerr << "Cursor reached first line" << endl;
         return false;
     } // If cursor can move up, but the line is shorter than cursorX.
-    else if (document.GetLenRow(cy) < cx)
+    else if (document.GetFormattedDocument()[cy].size() < cx)
     {
-        cx = document.GetLenRow(cy);
+        cx = document.GetFormattedDocument()[cy].size();
     }
     if (!UpdateCursor(cx, cy))
         return false;
@@ -219,12 +228,14 @@ bool ECTextEditor ::SetCursorLineEnd()
 bool ECTextEditor ::UpdateCursor(int cx, int cy)
 {
     // Check Validity before updating cursor
-    if (cy > document.GetNumRows())
+    // if (cy > document.GetNumRows())
+    if (cy > document.GetFormattedDocument().size())
     {
         cerr << "Cursor out of bounds Y: " << cy << endl;
         return false;
     }
-    else if (cx > document.GetLenRow(cy))
+    // else if (cx > document.GetLenRow(cy))
+    else if (cx > document.GetFormattedDocument()[cy].size())
     {
         cerr << "Cursor out of bounds X: " << cx << " for row length: " << document.GetLenRow(cy) << endl;
         return false;

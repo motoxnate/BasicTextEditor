@@ -7,6 +7,12 @@
 using namespace std;
 class ECTextDocument;
 
+typedef enum {
+    OK = 0,
+    FAIL = 1, 
+    NEWLINE = 2
+} CURSOR;
+
 /*  ******************************************************
     Implement Commands */
 
@@ -85,13 +91,18 @@ public:
     int GetNumPages() const;            // Return the number of pages
     bool NextPage();                    // Go to the next page
     bool PrevPage();                    // Go to the previous page
+    CURSOR StepCursorForward();         // Step the document cursor forward
+    bool StepCursorBack();              // Step the document cursor back
+    bool StepCursorUp();                // Step the document cursor up
+    bool StepCursorDown();              // Step the document cursor down
     vector<string> GetAllRows();        // Return all the rows in the document as strings
     void AddRow(string row);            // Add a row to the document. Used for testing purposes
     void FormatDocument();              // Format the document text and store in formattedDocument
     vector<string> GetFormattedDocument();    // Returns the formatted document ready for display
-    vector<string> GetCurrentPage();      // Returns the formatted text to display a page.
+    vector<string> GetCurrentPage();    // Returns the formatted text to display a page.
 
 private:
+    int cx, cy;                         // Cursor X and Y of the UNFORMATTED document. This is where edits need to happen.
     vector<vector<char>> document;
     vector<string> formattedDocument;
     int pages;
@@ -100,6 +111,7 @@ private:
     ECTextViewImp *textView;
     ECFileIO *fileIO;
 
+    bool UpdateCursor(int x, int y);                // Try to set the document cursor
     void Newlines();                    // Search for newlines. Testing
 };
 
