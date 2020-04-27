@@ -15,8 +15,7 @@ ECTextEditor::ECTextEditor(ECTextViewImp &view, ECTextDocument &doc, ECTextDocum
     // docCtrl.AddEditor(this);
     // Attach to the text view observer
     textView.Attach(this);
-
-    textView.AddStatusRow("Test Left Message", "Test Right Message", false);
+    UpdateStatusRow();
     // AddRow("\p");
     // AddRow("This is a second test row");
     UpdateTextDisplay();
@@ -32,6 +31,7 @@ void ECTextEditor::Update()
 {
     cout << "Update Called" << endl;
     ParseKeyCode(textView.GetPressedKey());
+    UpdateStatusRow();
     textView.Refresh();
     return;
 }
@@ -48,13 +48,23 @@ void ECTextEditor::ParseKeyCode(int c)
     }
     else if (c >= 32 && c <= 126)
     { // Letters and characters
-        docCtrl.InsertChar(textView.GetCursorX(), textView.GetCursorY(), c);
+        docCtrl.InsertChar(c);
+        // int dy = document.GetCY();
         StepCursorForward();
+        // dy = document.GetCY() - dy;
+        // if(dy != 0) StepCursorForward();
         UpdateTextDisplay();
     }
     else if (c == BACKSPACE)
     { // Backspace
-        docCtrl.Backspace(textView.GetCursorX(), textView.GetCursorY());
+        int dy = document.GetCY();
+        docCtrl.Backspace();
+        dy = dy - document.GetCY();
+        StepCursorBack();
+        if(dy != 0) {
+            document.SetCX(0);
+            assert(UpdateCursor(0, textView.GetCursorY()));
+        }
         UpdateTextDisplay();
     }
     else if (c >= 0 && c <= 27)
@@ -62,7 +72,10 @@ void ECTextEditor::ParseKeyCode(int c)
         switch (c)
         {
         case ENTER:
-            docCtrl.Newline(textView.GetCursorX(), textView.GetCursorY());
+            docCtrl.Newline();
+            StepCursorDown();
+            document.SetCX(0);
+            assert(UpdateCursor(0, textView.GetCursorY()));
             UpdateTextDisplay();
             break;
         case CTRL_Q: // This is here because of the specification, but will never be called
@@ -93,21 +106,25 @@ void ECTextEditor::ParseKeyCode(int c)
             cerr << "Arrow Left ";
             StepCursorBack();
             cerr << "x=" << textView.GetCursorX() << " y=" << textView.GetCursorY() << endl;
+            UpdateTextDisplay();
             break;
         case ARROW_RIGHT:
             cerr << "Arrow Right ";
             StepCursorForward();
             cerr << "x=" << textView.GetCursorX() << " y=" << textView.GetCursorY() << endl;
+            UpdateTextDisplay();
             break;
         case ARROW_UP:
             cerr << "Arrow Up ";
             StepCursorUp();
             cerr << "x=" << textView.GetCursorX() << " y=" << textView.GetCursorY() << endl;
+            UpdateTextDisplay();
             break;
         case ARROW_DOWN:
             cerr << "Arrow Down ";
             StepCursorDown();
             cerr << "x=" << textView.GetCursorX() << " y=" << textView.GetCursorY() << endl;
+            UpdateTextDisplay();
             break;
         }
     }
@@ -116,22 +133,23 @@ void ECTextEditor::ParseKeyCode(int c)
 /* Must step cursor forward on the document AND in the formatted text view */
 bool ECTextEditor::StepCursorForward()
 {
-    CURSOR bit = document.StepCursorForward();
-    if(bit == FAIL) return false;
+    int dy = document.GetCY();
+    if(!document.StepCursorForward()) return false;
+    dy = document.GetCY() - dy;
     int cx = textView.GetCursorX() + 1;
     int cy = textView.GetCursorY();
     // If cursor reaches end of window
-    if (cx > textView.GetColNumInView())
+    if (cx >= textView.GetColNumInView())
     {
         cx = 0;
         cy += 1;
     } // If cursor reaches end of line.
-    else if (bit == NEWLINE)
+    else if (cx >= GetLenRow(cy) || dy != 0)
     {
         // Cursor next line
         cx = 0;
         cy += 1;
-    } // Check Y position
+    }   // Check Y position
     if (cy > textView.GetRowNumInView())
     {
         if(!document.NextPage()) {
@@ -149,6 +167,7 @@ bool ECTextEditor::StepCursorForward()
 bool ECTextEditor ::StepCursorBack()
 {
     if(!document.StepCursorBack()) return false;
+    int dy = document.GetCY();
     int cx = textView.GetCursorX() - 1;
     int cy = textView.GetCursorY();
     // If the cursor has reached the beginning of a line.
@@ -157,12 +176,22 @@ bool ECTextEditor ::StepCursorBack()
         cy -= 1;
         if (cy < 0)
         { // Cursor cannot go back furthers
-            cerr << "Cursor reached first character" << endl;
-            return false;
+            if(!document.PrevPage()) {
+                cerr << "Cursor reached first character" << endl;
+                return false;
+            } else {
+                cy = textView.GetRowNumInView() - 1;
+                cx = GetLenRow(cy) - 1;
+            }
         } // Set cursorX to last char of previous row
         else
         {
-            cx = document.GetFormattedDocument()[cy].size();
+            if(document.GetAllRows()[dy].back() != ' ') {
+                cx = GetLenRow(cy) - 1;
+                cerr << "Step back with space at end of row" << endl;
+            }
+            else cx = GetLenRow(cy);
+            if(cx < 0) cx = 0;
         }
     }
     if (!UpdateCursor(cx, cy))
@@ -173,17 +202,34 @@ bool ECTextEditor ::StepCursorBack()
 bool ECTextEditor ::StepCursorUp()
 {
     if(!document.StepCursorUp()) return false;
+    int dy = document.GetCY();
     int cx = textView.GetCursorX();
     int cy = textView.GetCursorY() - 1;
     // If cursor has hit beginning of document
     if (cy < 0)
     {
-        cerr << "Cursor reached first line" << endl;
-        return false;
+        if(!document.PrevPage()) {
+            cerr << "Cursor reached first line" << endl;
+            return false;
+        } else 
+        {
+            cy = textView.GetRowNumInView() - 1;
+            if (GetLenRow(cy) < cx) {
+                if(document.GetAllRows()[dy].back() != ' ') {
+                    cx = GetLenRow(cy) - 1;
+                }
+            else cx = GetLenRow(cy);
+            if(cx < 0) cx = 0;
+            }
+        }
     } // If cursor can move up, but the line is shorter than cursorX.
-    else if (document.GetFormattedDocument()[cy].size() < cx)
+    else if (GetLenRow(cy) < cx)
     {
-        cx = document.GetFormattedDocument()[cy].size();
+        if(document.GetAllRows()[dy].back() != ' ') {
+                cx = GetLenRow(cy) - 1;
+        }
+        else cx = GetLenRow(cy);
+        if(cx < 0) cx = 0;
     }
     if (!UpdateCursor(cx, cy))
         return false;
@@ -192,25 +238,37 @@ bool ECTextEditor ::StepCursorUp()
 
 bool ECTextEditor ::StepCursorDown()
 {
+    if(!document.StepCursorDown()) return false;
+    int dy = document.GetCY();
     int cx = textView.GetCursorX();
     int cy = textView.GetCursorY() + 1;
     // If cursor has hit end of window
-    if (cy > textView.GetRowNumInView())
-    {
-        cerr << "Cursor reached end of window" << endl;
-        return false;
-    } // If cursor has hit the end of the document
-    else if (cy > document.GetNumRows())
+    // if (cy > textView.GetRowNumInView())
+    // {
+    //     cerr << "Cursor reached end of window" << endl;
+
+    //     return false;
+    // } // If cursor has hit the end of the document
+    if (cy > document.GetNumRowsFormatted())
     {
         cerr << "Cursor has reached end of document" << endl;
         return false;
-    } // If cursor can move down, but the line is shorter than cursorX
-    else if (document.GetLenRow(cy) < cx)
+    }   // If cursor can move down, but the line is shorter than cursorX
+    else if (document.GetLenRowFormatted(cy) < cx)
     {
-        cx = document.GetLenRow(cy);
+        if(document.GetAllRows()[dy].back() != ' ') {
+            cx = document.GetLenRowFormatted(cy) - 1;
+        }
+        else cx = document.GetLenRowFormatted(cy);
+        if(cx < 0) cx = 0;
     }
     if (!UpdateCursor(cx, cy))
         return false;
+    return true;
+}
+
+bool ECTextEditor:: SetCursor(int x, int y) {
+    if(!UpdateCursor(x, y)) return false;
     return true;
 }
 
@@ -229,12 +287,17 @@ bool ECTextEditor ::UpdateCursor(int cx, int cy)
 {
     // Check Validity before updating cursor
     // if (cy > document.GetNumRows())
-    if (cy > document.GetFormattedDocument().size())
+    if (cy > textView.GetRowNumInView() - 1)
     {
-        cerr << "Cursor out of bounds Y: " << cy << endl;
+        cerr << "Go to next page: ";
+        if(!document.NextPage()) return false;
+        cy = 0;
+        cerr << "Page = " << document.GetPageNum() << endl;
+    }
+    else if (cy > document.GetNumRowsFormatted()) {
+        cerr << "Cursor out of bounds Y: " << cy << " for document size: " << document.GetNumRowsFormatted() << endl;
         return false;
     }
-    // else if (cx > document.GetLenRow(cy))
     else if (cx > document.GetFormattedDocument()[cy].size())
     {
         cerr << "Cursor out of bounds X: " << cx << " for row length: " << document.GetLenRow(cy) << endl;
@@ -246,12 +309,34 @@ bool ECTextEditor ::UpdateCursor(int cx, int cy)
     return true;
 }
 
+int ECTextEditor:: GetNumRows() {
+    return document.GetCurrentPage().size();
+}
+
+int ECTextEditor:: GetLenRow(int y) {
+    if (y > GetNumRows()) return 0;
+    return document.GetCurrentPage()[y].size();
+}
+
+/* Update the status row in the textView */
+void ECTextEditor:: UpdateStatusRow() {
+    string baseLeft = "TextView Cursor: ";
+    string baseRight = "TextDoc Cursor: ";
+    StatusLeft = baseLeft + to_string(textView.GetCursorX()) + "," + to_string(textView.GetCursorY());
+    StatusRight = baseRight + to_string(document.GetCX()) + "," + to_string(document.GetCY());
+    textView.ClearStatusRows();
+    textView.AddStatusRow(StatusLeft, StatusRight, false);
+}
+
 /* Clear the view entirely. All all rows from the document one by one. */
 void ECTextEditor ::UpdateTextDisplay()
 {
     textView.InitRows();
-    for (string s : document.GetCurrentPage())
+    formattedPage.clear();
+    for (string s : document.GetCurrentPage()) {
         textView.AddRow(s);
+        formattedPage.push_back(s);
+    }
     return;
 }
 

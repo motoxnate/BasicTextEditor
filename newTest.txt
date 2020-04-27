@@ -1,0 +1,81 @@
+Arrow Down llen = 57
+This paragraph len = 57 Ok lets 
+x=0 y=1
+Arrow Down llen = 43
+This paragraph len = 43
+x=0 y=2
+Arrow Down llen = 45
+This paragraph len = 45
+x=0 y=3
+Arrow Down llen = 77
+This paragraph len = 212
+x=0 y=4
+Arrow Down llen = 77
+This paragraph len = 212
+x=0 y=5
+Arrow Down llen = 58
+This paragraph len = 212
+x=0 y=6
+Arrow Down llen = 77
+This paragraph len = 123
+x=0 y=7
+Arrow Down llen = 46
+This paragraph len = 123
+x=0 y=8
+Arrow Down llen = 71
+This paragraph len = 212
+x=0 y=9
+Arrow Down llen = 75
+This paragraph len = 212
+x=0 y=10
+Arrow Down llen = 66
+This paragraph len = 212
+x=0 y=11
+Arrow Down llen = 73
+This paragraph len = 174
+x=0 y=12
+Arrow Down llen = 77
+This paragraph len = 174
+x=0 y=13
+Arrow Down llen = 25
+This paragraph len = 174
+x=0 y=14
+Arrow Down llen = 61
+This paragraph len = 60
+x=0 y=15
+Arrow Down llen = 0
+This paragraph len = 0
+x=0 y=16
+Arrow Down llen = 63
+This paragraph len = 63
+x=0 y=17
+Arrow Down llen = 63
+This paragraph len = 63
+x=0 y=18
+Arrow Down llen = 0
+This paragraph len = 106
+x=0 y=19
+Arrow Down llen = 0
+This paragraph len = 68
+x=0 y=20
+Arrow Down llen = 0
+This paragraph len = 54
+x=0 y=21
+Arrow Down llen = 0
+This paragraph len = 61
+x=0 y=22
+Arrow Down llen = 0
+This paragraph len = 86
+x=0 y=23
+Arrow Down llen = 0
+This paragraph len = 389
+x=0 y=24
+Arrow Right [Document] Cursor out of bounds Y: 18
+x=0 y=24
+Arrow Right [Document] Cursor out of bounds Y: 18
+x=0 y=24
+Arrow Right [Document] Cursor out of bounds Y: 18
+x=0 y=24
+Arrow Up 0
+Step 3
+

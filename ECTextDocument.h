@@ -7,49 +7,43 @@
 using namespace std;
 class ECTextDocument;
 
-typedef enum {
-    OK = 0,
-    FAIL = 1, 
-    NEWLINE = 2
-} CURSOR;
-
 /*  ******************************************************
     Implement Commands */
 
 class InsertCharCommand : public ECCommand {
 public: 
-    InsertCharCommand(ECTextDocument *doc, int cursorX, int cursorY, char c);      // Move the cursor to the specified position
+    InsertCharCommand(ECTextDocument *doc, char c);      // Move the cursor to the specified position
     ~InsertCharCommand();
     void Execute();
     void UnExecute();
 private:
     int cx, cy;
-    int origCX, origCY;
+    int origCX, origCY, origViewCX, origViewCY;
     char c;
     vector<vector<char>> origDocument;
 };
 
 class BackspaceCommand : public ECCommand {
 public:
-    BackspaceCommand(ECTextDocument *doc, int cx, int cy);
+    BackspaceCommand(ECTextDocument *doc);
     ~BackspaceCommand();
     void Execute();
     void UnExecute();
 private:
     int cx, cy;
-    int origCX, origCY;
+    int origCX, origCY, origViewCX, origViewCY;
     vector<vector<char>> origDocument;
 };
 
 class NewlineCommand : public ECCommand {
 public:
-    NewlineCommand(ECTextDocument *doc, int cx, int cy);
+    NewlineCommand(ECTextDocument *doc);
     ~NewlineCommand();
     void Execute();
     void UnExecute();
 private:
     int cx, cy;
-    int origCX, origCY;
+    int origCX, origCY, origViewCX, origViewCY;
     vector<vector<char>> origDocument;
 
 };
@@ -60,9 +54,9 @@ class ECTextDocumentCtrl {
 public:
     ECTextDocumentCtrl(ECTextDocument &docIn);      // controller constructor takes the document as input
     virtual ~ECTextDocumentCtrl();
-    void Backspace(int cx, int cy);
-    void InsertChar(int cx, int cy, char c);        // Insert a character
-    void Newline(int cx, int cy);                   // Insert a newline
+    void Backspace();
+    void InsertChar(char c);        // Insert a character
+    void Newline();                   // Insert a newline
 
     bool Undo();                                    // undo any change you did to the text
     bool Redo();                                    // redo the change to the text
@@ -87,11 +81,18 @@ public:
     ECTextViewImp* GetTextView();       // Get the view
 
     int GetNumRows() const;             // Return the number of rows.
+    int GetNumRowsFormatted() const;    // Return the number of rows after formatting.
     int GetLenRow(int r) const;         // Return the length of a row. 0 if a row is empty.
+    int GetLenRowFormatted(int r) const;     // Return the length of a row after formatting.
     int GetNumPages() const;            // Return the number of pages
     bool NextPage();                    // Go to the next page
     bool PrevPage();                    // Go to the previous page
-    CURSOR StepCursorForward();         // Step the document cursor forward
+    int GetPageNum();                   // Return the current page number.
+    int GetCX();                        // Get cursor x.
+    int GetCY();                        //Get cursor y
+    bool SetCX(int x);                  // Set cursor x
+    bool SetCY(int y);                  // Set cursor y
+    bool StepCursorForward();           // Step the document cursor forward
     bool StepCursorBack();              // Step the document cursor back
     bool StepCursorUp();                // Step the document cursor up
     bool StepCursorDown();              // Step the document cursor down

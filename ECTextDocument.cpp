@@ -1,4 +1,5 @@
 #include "ECTextDocument.h"
+#include <math.h>
 
 using namespace std;
 
@@ -7,11 +8,11 @@ using namespace std;
 
 // –––––––––––––––––––
 // InsertCharCommand
-InsertCharCommand ::InsertCharCommand(ECTextDocument *doc, int cursorX, int cursorY, char c)
+InsertCharCommand ::InsertCharCommand(ECTextDocument *doc, char c)
     : ECCommand(doc, doc->document)
 {
-    this->cx = cursorX;
-    this->cy = cursorY;
+    this->cx = doc->GetCX();
+    this->cy = doc->GetCY();
     this->c = c;
     textView = doc->GetTextView();
 }
@@ -26,6 +27,8 @@ void InsertCharCommand ::Execute()
     // Store for undo
     origCX = cx;
     origCY = cy;
+    origViewCX = textView->GetCursorX();
+    origViewCY = textView->GetCursorY();
     origDocument = document;
     // If the line does not yet exist, add a new line
     if ((doc->GetNumRows() == 0) || (cy == document.size()))
@@ -34,26 +37,27 @@ void InsertCharCommand ::Execute()
         document.push_back(vec);
     }
     document[cy].insert(document[cy].begin() + cx, c);
-    textView->SetCursorX(cx);
-    textView->SetCursorY(cy);
+    doc->FormatDocument();
 }
 
 void InsertCharCommand ::UnExecute()
 {
     document = origDocument;
-    textView->SetCursorX(origCX);
-    textView->SetCursorY(origCY);
+    textView->SetCursorX(origViewCX);
+    textView->SetCursorY(origViewCY);
+    doc->cx = origCX;
+    doc->cy = origCY;
     cx = origCX;
     cy = origCY;
 }
 
 // –––––––––––––––––––
 // BackspaceCommand
-BackspaceCommand::BackspaceCommand(ECTextDocument *doc, int cx, int cy)
+BackspaceCommand::BackspaceCommand(ECTextDocument *doc)
     : ECCommand(doc, doc->document)
 {
-    this->cx = cx;
-    this->cy = cy;
+    this->cx = doc->cx;
+    this->cy = doc->cy;
     textView = doc->GetTextView();
 }
 
@@ -66,7 +70,10 @@ void BackspaceCommand::Execute()
 {
     origCX = cx;
     origCY = cy;
+    origViewCX = textView->GetCursorX();
+    origViewCY = textView->GetCursorY();
     origDocument = document;
+    // Logic to do the erase
     cx -= 1;
     // If the cursor has reached the beginning of a line.
     if (cx < 0) // cx is < 0 and must be reset to a correct integer
@@ -74,13 +81,13 @@ void BackspaceCommand::Execute()
         cy -= 1;
         if (cy < 0)
         { // Cursor cannot go back further
-            cerr << "Cursor reached first character" << endl;
+            cerr << "[Backspace] Cursor reached first character" << endl;
             return;
         }
         // Cursor can go back to the previous line
         // Set cx to the end of the previous line
         cx = doc->GetLenRow(cy);
-        // Check if the cursor was on the last line of the document.
+        // Check if the cursor was past the last line of the document.
         if (!(cy + 1 == doc->GetNumRows()))
         {
             // If line not empty, copy the remaining text to the row above
@@ -98,14 +105,15 @@ void BackspaceCommand::Execute()
     {
         document[cy].erase(document[cy].begin() + cx);
     }
-    textView->SetCursorX(cx);
-    textView->SetCursorY(cy);
+    doc->FormatDocument();
 }
 
 void BackspaceCommand::UnExecute()
 {
-    textView->SetCursorX(origCX);
-    textView->SetCursorY(origCY);
+    textView->SetCursorX(origViewCX);
+    textView->SetCursorY(origViewCY);
+    doc->cx = origCX;
+    doc->cy = origCY;
     cx = origCX;
     cy = origCY;
     document = origDocument;
@@ -113,11 +121,11 @@ void BackspaceCommand::UnExecute()
 
 // –––––––––––––––––––
 // NewlineCommand. Must add a character denoting a new line
-NewlineCommand ::NewlineCommand(ECTextDocument *doc, int cx, int cy)
+NewlineCommand ::NewlineCommand(ECTextDocument *doc)
     : ECCommand(doc, doc->document)
 {
-    this->cx = cx;
-    this->cy = cy;
+    this->cx = doc->GetCX();
+    this->cy = doc->GetCY();
     textView = doc->GetTextView();
 }
 
@@ -130,6 +138,8 @@ void NewlineCommand ::Execute()
 {
     origCX = cx;
     origCY = cy;
+    origViewCX = textView->GetCursorX();
+    origViewCY = textView->GetCursorY();
     origDocument = document;
 
     // If the cursor is on the last line, just append a blank line
@@ -146,26 +156,21 @@ void NewlineCommand ::Execute()
         vector<char> newline(document[cy].begin() + cx, document[cy].end());
         // Erase those characters from the line
         document[cy].erase(document[cy].begin() + cx, document[cy].end());
-        // Insert the newline character
-        // document[cy].push_back('\n');
         // Move cursor to the next line.
         cy += 1;
         // Insert the characters into the next line
         document.insert(document.begin() + cy, newline);
     }
     // Want to move the cursor down and to the beginning
-    cx = 0;
-
-    textView->SetCursorX(cx);
-    textView->SetCursorY(cy);
+    doc->FormatDocument();
 }
 
 void NewlineCommand ::UnExecute()
 {
-    textView->SetCursorX(origCX);
-    textView->SetCursorY(origCY);
-    cx = origCX;
-    cy = origCY;
+    textView->SetCursorX(origViewCX);
+    textView->SetCursorY(origViewCY);
+    doc->cx = origCX;
+    doc->cy = origCY;
     document = origDocument;
 }
 
@@ -178,21 +183,21 @@ ECTextDocumentCtrl::~ECTextDocumentCtrl() {}
 //     textEditor = editor;
 // }
 
-void ECTextDocumentCtrl::InsertChar(int cx, int cy, char c)
+void ECTextDocumentCtrl::InsertChar(char c)
 {
-    InsertCharCommand *cmd = new InsertCharCommand(&doc, cx, cy, c);
+    InsertCharCommand *cmd = new InsertCharCommand(&doc, c);
     histCmds.ExecuteCmd(cmd);
 }
 
-void ECTextDocumentCtrl::Backspace(int cx, int cy)
+void ECTextDocumentCtrl::Backspace()
 {
-    BackspaceCommand *cmd = new BackspaceCommand(&doc, cx, cy);
+    BackspaceCommand *cmd = new BackspaceCommand(&doc);
     histCmds.ExecuteCmd(cmd);
 }
 
-void ECTextDocumentCtrl::Newline(int cx, int cy)
+void ECTextDocumentCtrl::Newline()
 {
-    NewlineCommand *cmd = new NewlineCommand(&doc, cx, cy);
+    NewlineCommand *cmd = new NewlineCommand(&doc);
     histCmds.ExecuteCmd(cmd);
 }
 
@@ -244,6 +249,11 @@ int ECTextDocument ::GetNumRows() const
     return document.size();
 }
 
+/* Return the number of formatted rows */
+int ECTextDocument:: GetNumRowsFormatted() const {
+    return formattedDocument.size();
+}
+
 // Return the length of a row of the document. If the row is empty
 // then return 0
 int ECTextDocument ::GetLenRow(int r) const
@@ -251,6 +261,13 @@ int ECTextDocument ::GetLenRow(int r) const
     if (r >= GetNumRows())
         return 0;
     return document[r].size();
+}
+
+/* Return the length of a row in the formatted document. Return 0 if empty */
+int ECTextDocument:: GetLenRowFormatted(int r) const {
+    if(r > GetNumRows())
+        return 0;
+    return formattedDocument[r].size();
 }
 
 int ECTextDocument:: GetNumPages() const {
@@ -273,19 +290,39 @@ bool ECTextDocument:: PrevPage() {
     return false;
 }
 
+int ECTextDocument:: GetPageNum() {
+    return pages;
+}
+
+/* Get cursor X */
+int ECTextDocument:: GetCX() { return cx; }
+
+/* Get cursor Y */
+int ECTextDocument:: GetCY() { return cy; }
+
+/* Set cursor X */
+bool ECTextDocument:: SetCX(int x) {
+    if(!UpdateCursor(x, cy)) return false;
+    return true;
+}
+
+/* Set cursor Y */
+bool ECTextDocument:: SetCY(int y) {
+    if(!UpdateCursor(cx, y)) return false;
+    return true;
+}
+
 /* Step the document cursor forwards */
-CURSOR ECTextDocument:: StepCursorForward() {
+bool ECTextDocument:: StepCursorForward() {
     int x = cx + 1;
     int y = cy;
-    CURSOR bit = OK;
     if(x > GetLenRow(y)) {
         // Cursor next line
         x = 0;
         y += 1;
-        bit = NEWLINE;
     }
-    if(!UpdateCursor(x, y)) return FAIL;
-    return bit;
+    if(!UpdateCursor(x, y)) return false;
+    return true;
 }
 
 /* Step the document cursor back */
@@ -314,8 +351,9 @@ bool ECTextDocument:: StepCursorBack() {
 bool ECTextDocument:: StepCursorUp() {
     int x = cx;
     int y = cy;
-    int llen = textView->GetColNumInView();
-    if(x / llen > 0) //  If > 0, step back x by pagelen
+    int llen = GetCurrentPage()[textView->GetCursorY()-1].size();
+    cerr << llen << endl;
+    if((llen > 0) && (x / llen > 0)) //  If > 0, step back x by line length
     {
         x -= llen;
     } else  // Otherwise, must step back a row
@@ -324,8 +362,22 @@ bool ECTextDocument:: StepCursorUp() {
         if(y < 0) {
             cerr << "[Document] Cursor reached first line" << endl;
             return false;
+        }   
+        else if (llen == 0) {
+            x = 0;
+        }   // If the previous row is multiple displayed rows
+        else if (GetLenRow(y) > textView->GetColNumInView())
+        {
+            x = x + (floor(GetLenRow(y) / llen) * llen);
+            if (x > GetLenRow(y)) x = GetLenRow(y);
         }
-        x = GetLenRow(y);
+        // If the previous row is shorter than the cursor
+        else if (GetLenRow(y) < cx)
+        {   
+            x = GetLenRow(y);
+            if(x < 0) x = 0;    // Error check
+        }   
+        // Otherwise the cursor will move straight up
     }
     if(!UpdateCursor(x, y)) return false;
     return true;
@@ -333,7 +385,38 @@ bool ECTextDocument:: StepCursorUp() {
 
 /* Step the document cursor down */
 bool ECTextDocument:: StepCursorDown() {
-
+    int x = cx;
+    int y = cy;
+    int llen = GetCurrentPage()[textView->GetCursorY()].size();
+    cerr << "llen = " << llen << endl;
+    cerr << "This paragraph len = " << GetLenRow(y) << endl;
+    if(llen == 0) {
+        cerr << "Case 1" << endl;
+        y += 1;
+        x = 0;
+        if(y > GetNumRows()) {
+            cerr << "[Document] Cursor has reached the end of the document" << endl;
+            return false;
+        }
+    }
+    else if(x + llen >= GetLenRow(y)) 
+    {   // If going down a row would go beyond the current row
+        cerr << "Case 2" << endl;
+        y += 1;
+        if(y > GetNumRows()) {
+            cerr << "[Document] Cursor has reached the end of the document" << endl;
+            return false;
+        }
+        x = textView->GetCursorX(); // Make sure x corrolates to the x in terms of the view
+        if(GetLenRow(y) < x) x = GetLenRow(y);  // Move the cursor back to the end of the row
+        if(x < 0) x = 0;
+    } else 
+    {       // If going down stays within the current row
+        cerr << "Case 3" << endl;
+        x += llen;
+    }
+    if(!UpdateCursor(x, y)) return false;
+    return true;
 }
 
 // Turn document into a vector of strings and return
@@ -374,18 +457,18 @@ void ECTextDocument:: FormatDocument() {
         string word;
         while(getline(str, word, ' ')) {
             // If the word fits on the current line
-            if(formattedDocument[line].size() + word.size() <= llen) {
+            if(formattedDocument[line].size() + word.size() < llen) {
                 formattedDocument[line].append(word);
-            } else // If the word does not fit on the line
-            {
+            } // If the word does not fit on the line
+            else {
                 formattedDocument.push_back(word);
                 line++;
             }
             // Try to add a space after, or go to next line
-            if(formattedDocument[line].size() + 1 <= llen) 
+            if (formattedDocument[line].size() + 1 < llen) 
                 formattedDocument[line].append(" ");
             else {
-                formattedDocument.push_back("");
+                formattedDocument.push_back(" ");
                 line++;
             }
         }
@@ -419,7 +502,7 @@ bool ECTextDocument:: UpdateCursor(int x, int y) {
         return false;
     }
     else if (x > GetLenRow(y)) {
-        cerr << "[Document] Cursor out of bounds X: " << x << endl;
+        cerr << "[Document] Cursor out of bounds X: " << x << "for row len: " << GetLenRow(y) << endl;
         return false;
     }
     cx = x;

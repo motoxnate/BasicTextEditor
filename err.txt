@@ -1,71 +1,31 @@
-Arrow Right x=1 y=0
-Arrow Right x=2 y=0
-Arrow Right x=3 y=0
-Arrow Right x=4 y=0
-Arrow Right x=5 y=0
-Arrow Right x=6 y=0
-Arrow Right x=7 y=0
-Arrow Right x=8 y=0
-Arrow Right x=9 y=0
-Arrow Right x=10 y=0
-Arrow Right x=11 y=0
-Arrow Right x=12 y=0
-Arrow Right x=13 y=0
-Arrow Right x=14 y=0
-Arrow Right x=15 y=0
-Arrow Right x=16 y=0
-Arrow Right x=17 y=0
-Arrow Right x=18 y=0
-Arrow Right x=19 y=0
-Arrow Right x=20 y=0
-Arrow Right x=21 y=0
-Arrow Right x=22 y=0
-Arrow Right x=23 y=0
-Arrow Right x=24 y=0
-Arrow Right x=25 y=0
-Arrow Right x=26 y=0
-Arrow Right x=27 y=0
-Arrow Right x=28 y=0
-Arrow Right x=29 y=0
-Arrow Right x=30 y=0
-Arrow Right x=31 y=0
-Arrow Right x=32 y=0
-Arrow Right x=33 y=0
-Arrow Right x=34 y=0
-Arrow Right x=35 y=0
-Arrow Right x=36 y=0
-Arrow Right x=37 y=0
-Arrow Right x=38 y=0
-Arrow Right x=39 y=0
-Arrow Right x=40 y=0
-Arrow Right x=41 y=0
-Arrow Right x=42 y=0
-Arrow Right x=43 y=0
-Arrow Right x=44 y=0
-Arrow Right x=45 y=0
-Arrow Right x=46 y=0
-Arrow Right x=47 y=0
-Arrow Right x=48 y=0
-Arrow Right x=49 y=0
-Arrow Right x=50 y=0
-Arrow Right x=51 y=0
-Arrow Right x=52 y=0
-Arrow Right x=53 y=0
-Arrow Right x=54 y=0
-Arrow Right x=55 y=0
-Arrow Right x=56 y=0
-Arrow Right x=57 y=0
-Arrow Right x=58 y=0
-Arrow Right x=59 y=0
-Arrow Right x=60 y=0
-Arrow Right x=61 y=0
-Arrow Right x=62 y=0
-Arrow Right x=63 y=0
-Arrow Right x=64 y=0
-Arrow Right x=65 y=0
-Arrow Right x=66 y=0
-Arrow Right x=67 y=0
-Arrow Right x=0 y=1
+Arrow Down llen = 21
+This paragraph len = 20
+Case 2
+x=0 y=1
+Arrow Down llen = 24
+This paragraph len = 23
+Case 2
+x=0 y=2
+Arrow Down llen = 8
+This paragraph len = 7
+Case 2
+x=0 y=3
+Arrow Down llen = 21
+This paragraph len = 20
+Case 2
+x=0 y=4
+Arrow Up 21
+x=0 y=3
+Arrow Up 8
+x=0 y=2
+Arrow Up 24
+x=0 y=1
+Arrow Up 21
+x=0 y=0
+Arrow Down llen = 21
+This paragraph len = 20
+Case 2
+x=0 y=1
 Arrow Right x=1 y=1
 Arrow Right x=2 y=1
 Arrow Right x=3 y=1
@@ -89,24 +49,84 @@ Arrow Right x=20 y=1
 Arrow Right x=21 y=1
 Arrow Right x=22 y=1
 Arrow Right x=23 y=1
-Arrow Up x=23 y=0
-Arrow Right x=24 y=0
-Arrow Right x=25 y=0
-Arrow Right x=26 y=0
-Arrow Right x=27 y=0
-Arrow Right x=28 y=0
-Arrow Right x=29 y=0
-Arrow Right x=30 y=0
-Arrow Right x=31 y=0
-Arrow Right x=32 y=0
-Arrow Right x=33 y=0
-Arrow Right x=34 y=0
-Arrow Right x=35 y=0
-Arrow Right x=36 y=0
-Arrow Right x=37 y=0
-Arrow Right x=38 y=0
-Arrow Right x=39 y=0
-Arrow Right x=40 y=0
-Arrow Right x=41 y=0
-Arrow Right x=42 y=0
-Arrow Right x=43 y=0
+Undo
+Undo
+Arrow Left x=24 y=1
+Arrow Left x=23 y=1
+Arrow Right x=25 y=1
+Arrow Right x=26 y=1
+Step back with space at end of row
+Arrow Left x=25 y=1
+Arrow Right x=26 y=1
+Arrow Left x=26 y=1
+Arrow Right x=28 y=1
+Arrow Up 32
+x=0 y=1
+Arrow Up 21
+x=0 y=0
+Arrow Up 19
+[Document] Cursor reached first line
+x=0 y=0
+Arrow Up 0
+[Document] Cursor reached first line
+x=0 y=0
+Arrow Up 0
+[Document] Cursor reached first line
+x=0 y=0
+Arrow Up 0
+[Document] Cursor reached first line
+x=0 y=0
+Arrow Left [Document] Cursor reached first character
+x=0 y=0
+Arrow Right x=1 y=0
+Arrow Down llen = 21
+This paragraph len = 20
+Case 2
+x=1 y=1
+Arrow Left x=0 y=1
+Arrow Left Step back with space at end of row
+x=20 y=0
+Arrow Down llen = 21
+This paragraph len = 20
+Case 2
+x=20 y=1
+Arrow Left x=19 y=1
+Arrow Left x=18 y=1
+Arrow Left x=17 y=1
+Arrow Left x=16 y=1
+Arrow Up 21
+x=16 y=0
+Arrow Up 0
+[Document] Cursor reached first line
+x=16 y=0
+Arrow Up 0
+[Document] Cursor reached first line
+x=16 y=0
+Arrow Up 0
+[Document] Cursor reached first line
+x=16 y=0
+Arrow Up 0
+[Document] Cursor reached first line
+x=16 y=0
+Arrow Down llen = 21
+This paragraph len = 20
+Case 2
+x=16 y=1
+Arrow Left x=15 y=1
+Arrow Left x=14 y=1
+Arrow Left x=13 y=1
+Arrow Left x=12 y=1
+Arrow Left x=11 y=1
+Arrow Left x=10 y=1
+Arrow Left x=9 y=1
+Arrow Left x=8 y=1
+Arrow Left x=7 y=1
+Arrow Left x=6 y=1
+Arrow Left x=5 y=1
+Arrow Left x=4 y=1
+Arrow Left x=3 y=1
+Arrow Left x=2 y=1
+Arrow Left x=1 y=1
+Arrow Left x=0 y=1
+Arrow Left Step back with space at end of row
+x=20 y=0

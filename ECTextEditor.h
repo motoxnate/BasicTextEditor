@@ -6,6 +6,7 @@
 #include "ECTextViewImp.h"
 #include "ECTextDocument.h"
 #include "ECCommand.h"
+#include <assert.h>
 
 class ECTextEditor : public ECObserver
 {
@@ -17,19 +18,29 @@ public:
 
 private:
     void ParseKeyCode(int c);
+
     bool StepCursorForward();
     bool StepCursorBack();
     bool StepCursorUp();
     bool StepCursorDown();
-    bool SetCursorLineEnd();           // Used to place the cursor after undo / redo.
-    bool UpdateCursor(int cx, int cy); // Update cursor position if valid.
+    bool SetCursor(int x, int y);       // Set the cursor to the desired position
+    bool SetCursorLineEnd();            // Used to place the cursor after undo / redo.
+    bool UpdateCursor(int cx, int cy);  // Update cursor position if valid.
 
-    void UpdateTextDisplay(); // Add the document text to the view.
-    void AddRow(string row);  // Add a new row for testing purposes.
+    int GetNumRows();                   // Get num rows on the current page
+    int GetLenRow(int y);               // Get the length of a row on the current page
 
-    ECTextViewImp &textView;     // The text view instance displays the text.
-    ECTextDocument &document;    // The TextDocument holds all the text data.
-    ECTextDocumentCtrl &docCtrl; // The Document Controller controls the text document.
+    void UpdateStatusRow();             // Update the status row
+    void UpdateTextDisplay();           // Add the document text to the view.
+    void AddRow(string row);            // Add a new row for testing purposes.
+
+    ECTextViewImp &textView;        // The text view instance displays the text.
+    ECTextDocument &document;       // The TextDocument holds all the text data.
+    ECTextDocumentCtrl &docCtrl;    // The Document Controller controls the text document.
+    
+    vector<string> formattedPage;  // The formatted page in view
+    string StatusLeft;          // Status row at the end of the view.
+    string StatusRight;
 };
 
 #endif
