@@ -1,10 +1,10 @@
 Arrow Down llen = 57
-This paragraph len = 57 Ok lets 
-x=0 y=1
+This paragraph len = 57 Ok lets testing writing some new text here. What happens when we get longer than a line? 
+x=0 y=1 Testing 123 123 123 123 testing testing testing lets get to the end 
 Arrow Down llen = 43
 This paragraph len = 43
 x=0 y=2
-Arrow Down llen = 45
+Arrow Down llen = 45 Alright testing 123 123 123
 This paragraph len = 45
 x=0 y=3
 Arrow Down llen = 77

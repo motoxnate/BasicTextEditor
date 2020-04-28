@@ -219,7 +219,7 @@ ECTextDocument::ECTextDocument(ECTextViewImp *textView, ECFileIO *fileIO) : docC
     this->fileIO = fileIO;
     cx = 0;
     cy = 0;
-    currentPage = 0;
+    pageNo = 0;
     // Read input file, if any
     vector<string> readfile = fileIO->read();
     for(int i=0; i<readfile.size(); i++) {
@@ -275,16 +275,16 @@ int ECTextDocument:: GetNumPages() const {
 }
 
 bool ECTextDocument:: NextPage() {
-    if(currentPage + 1 <= pages) {
-        currentPage++;
+    if(pageNo + 1 <= pages) {
+        pageNo++;
         return true;
     }
     return false;
 }
 
 bool ECTextDocument:: PrevPage() {
-    if(currentPage - 1 >= 0) {
-        currentPage--;
+    if(pageNo - 1 >= 0) {
+        pageNo--;
         return true;
     }
     return false;
@@ -351,21 +351,23 @@ bool ECTextDocument:: StepCursorBack() {
 bool ECTextDocument:: StepCursorUp() {
     int x = cx;
     int y = cy;
-    int llen = GetCurrentPage()[textView->GetCursorY()-1].size();
-    cerr << llen << endl;
+    int llen = currentPage[textView->GetCursorY()-1].size();
+    cerr << "Previous llen: " << llen << endl;
     if((llen > 0) && (x / llen > 0)) //  If > 0, step back x by line length
     {
         x -= llen;
-    } else  // Otherwise, must step back a row
+    } 
+    else  // Otherwise, must step back a row
     {
         y -= 1;
         if(y < 0) {
             cerr << "[Document] Cursor reached first line" << endl;
             return false;
         }   
-        else if (llen == 0) {
+        else if (llen <= 0) {
             x = 0;
-        }   // If the previous row is multiple displayed rows
+        } 
+        // If the previous row is multiple displayed rows
         else if (GetLenRow(y) > textView->GetColNumInView())
         {
             x = x + (floor(GetLenRow(y) / llen) * llen);
@@ -374,6 +376,7 @@ bool ECTextDocument:: StepCursorUp() {
         // If the previous row is shorter than the cursor
         else if (GetLenRow(y) < cx)
         {   
+            cerr << "Step up should be this one" << endl;
             x = GetLenRow(y);
             if(x < 0) x = 0;    // Error check
         }   
@@ -387,7 +390,7 @@ bool ECTextDocument:: StepCursorUp() {
 bool ECTextDocument:: StepCursorDown() {
     int x = cx;
     int y = cy;
-    int llen = GetCurrentPage()[textView->GetCursorY()].size();
+    int llen = currentPage[textView->GetCursorY()].size();
     cerr << "llen = " << llen << endl;
     cerr << "This paragraph len = " << GetLenRow(y) << endl;
     if(llen == 0) {
@@ -486,11 +489,13 @@ vector<string> ECTextDocument:: GetFormattedDocument() {
 /* Return the formatted page to view */
 vector<string> ECTextDocument:: GetCurrentPage() {
     FormatDocument();
+    currentPage.clear();
     vector<string> page;
     int pagesize = textView->GetRowNumInView();
     for(int i=0; i<pagesize && i<formattedDocument.size(); i++) {
-        page.push_back(formattedDocument[(currentPage * pagesize) + i]);
+        page.push_back(formattedDocument[(pageNo * pagesize) + i]);
     }
+    currentPage = page;
     return page;
 }
 

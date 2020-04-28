@@ -12,8 +12,8 @@
 int main(int argc, char *argv[])
 {
     string path;
-    if(argc == 1) path = "None";
-    else if(argc == 2) path = argv[1];
+    // if(argc == 1) path = "None";
+    if(argc == 2) path = argv[1];
     else {
         cerr << "Useage: ./main <filename.txt>" << endl;
         exit(EXIT_FAILURE);

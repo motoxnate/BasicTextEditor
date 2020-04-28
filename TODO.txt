@@ -1,5 +1,0 @@
-TODO:
-    - Formatted document has extra spaces at the end of lines
-    - Character insertion
-    - Character deletion
-    

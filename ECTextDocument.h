@@ -105,9 +105,10 @@ public:
 private:
     int cx, cy;                         // Cursor X and Y of the UNFORMATTED document. This is where edits need to happen.
     vector<vector<char>> document;
-    vector<string> formattedDocument;
+    vector<string> formattedDocument;   // The entire formatted document
+    vector<string> currentPage;         // The current formatted page of the document
     int pages;
-    int currentPage;
+    int pageNo;
     ECTextDocumentCtrl docCtrl;
     ECTextViewImp *textView;
     ECFileIO *fileIO;

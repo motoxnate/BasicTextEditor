@@ -29,7 +29,6 @@ ECTextEditor::~ECTextEditor() {}
 // First we parse they key, do something with it, then refresh.
 void ECTextEditor::Update()
 {
-    cout << "Update Called" << endl;
     ParseKeyCode(textView.GetPressedKey());
     UpdateStatusRow();
     textView.Refresh();
@@ -144,7 +143,7 @@ bool ECTextEditor::StepCursorForward()
         cx = 0;
         cy += 1;
     } // If cursor reaches end of line.
-    else if (cx >= GetLenRow(cy) || dy != 0)
+    else if (cx > GetLenRow(cy) || dy != 0)
     {
         // Cursor next line
         cx = 0;
@@ -181,13 +180,13 @@ bool ECTextEditor ::StepCursorBack()
                 return false;
             } else {
                 cy = textView.GetRowNumInView() - 1;
-                cx = GetLenRow(cy) - 1;
+                cx = GetLenRow(cy);
             }
         } // Set cursorX to last char of previous row
         else
         {
             if(document.GetAllRows()[dy].back() != ' ') {
-                cx = GetLenRow(cy) - 1;
+                cx = GetLenRow(cy);
                 cerr << "Step back with space at end of row" << endl;
             }
             else cx = GetLenRow(cy);
@@ -211,7 +210,8 @@ bool ECTextEditor ::StepCursorUp()
         if(!document.PrevPage()) {
             cerr << "Cursor reached first line" << endl;
             return false;
-        } else 
+        }   // Now on previous page
+        else 
         {
             cy = textView.GetRowNumInView() - 1;
             if (GetLenRow(cy) < cx) {
@@ -231,6 +231,7 @@ bool ECTextEditor ::StepCursorUp()
         else cx = GetLenRow(cy);
         if(cx < 0) cx = 0;
     }
+    // Otherwise the cursor just moves up
     if (!UpdateCursor(cx, cy))
         return false;
     return true;
