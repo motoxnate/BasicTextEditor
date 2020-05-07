@@ -25,6 +25,7 @@ private:
     bool StepCursorDown();
     bool SetCursor(int x, int y);       // Set the cursor to the desired position
     bool SetCursorLineEnd();            // Used to place the cursor after undo / redo.
+    bool SetCursorWordEnd();            // Set the cursor to the end of the current word.
     bool UpdateCursor(int cx, int cy);  // Update cursor position if valid.
 
     int GetNumRows();                   // Get num rows on the current page

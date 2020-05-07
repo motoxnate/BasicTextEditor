@@ -1,419 +1,64 @@
-Arrow Right x=1 y=0
-Arrow Right x=2 y=0
-Arrow Right x=3 y=0
-Arrow Right x=4 y=0
-Arrow Right x=5 y=0
-Arrow Right x=6 y=0
-Arrow Right x=7 y=0
-Arrow Right x=8 y=0
-Arrow Right x=9 y=0
-Arrow Right x=10 y=0
-Arrow Right x=11 y=0
-Arrow Right x=12 y=0
-Arrow Right x=13 y=0
-Arrow Right x=14 y=0
-Arrow Right x=15 y=0
-Arrow Down llen = 21
-This paragraph len = 20
-Case 2
-x=15 y=1
-Arrow Up Previous llen: 21
-x=15 y=0
-Arrow Down llen = 21
-This paragraph len = 20
-Case 2
-x=15 y=1
-Arrow Down llen = 68
-This paragraph len = 68
-Case 2
-x=15 y=2
-Arrow Down llen = 76
-This paragraph len = 76
-Case 2
-x=15 y=3
-Arrow Down llen = 21
-This paragraph len = 20
-Case 2
-x=15 y=4
-Arrow Left x=14 y=4
-Arrow Up Previous llen: 21
-x=14 y=3
-Arrow Down llen = 21
-This paragraph len = 20
-Case 2
-x=14 y=4
-Arrow Down llen = 24
-This paragraph len = 23
-Case 2
-x=7 y=5
-Arrow Up Previous llen: 24
-x=7 y=4
-Arrow Up Previous llen: 21
-x=7 y=3
-Arrow Up Previous llen: 76
-x=7 y=2
-Arrow Up Previous llen: 68
-x=7 y=1
-Arrow Down llen = 68
-This paragraph len = 68
-Case 2
-x=7 y=2
-Arrow Right x=8 y=2
-Arrow Right x=9 y=2
-Arrow Right x=10 y=2
-Arrow Right x=11 y=2
-Arrow Right x=12 y=2
-Arrow Right x=13 y=2
-Arrow Right x=14 y=2
-Arrow Right x=15 y=2
-Arrow Right x=16 y=2
-Arrow Right x=17 y=2
-Arrow Right x=18 y=2
-Arrow Right x=19 y=2
-Arrow Right x=20 y=2
-Arrow Right x=21 y=2
-Arrow Right x=22 y=2
-Arrow Right x=23 y=2
-Arrow Right x=24 y=2
-Arrow Right x=25 y=2
-Arrow Right x=26 y=2
-Arrow Right x=27 y=2
-Arrow Right x=28 y=2
-Arrow Right x=29 y=2
-Arrow Right x=30 y=2
-Arrow Right x=31 y=2
-Arrow Right x=32 y=2
-Arrow Right x=33 y=2
-Arrow Right x=34 y=2
-Arrow Right x=35 y=2
-Arrow Right x=36 y=2
-Arrow Up Previous llen: 68
-x=36 y=1
-Arrow Right x=37 y=1
-Arrow Right x=38 y=1
-Arrow Right x=39 y=1
-Arrow Right x=40 y=1
-Arrow Right x=41 y=1
-Arrow Right x=42 y=1
-Arrow Right x=43 y=1
-Arrow Right x=44 y=1
-Arrow Right x=45 y=1
-Arrow Right x=46 y=1
-Arrow Right x=47 y=1
-Arrow Right x=48 y=1
-Arrow Right x=49 y=1
-Arrow Right x=50 y=1
-Arrow Right x=51 y=1
-Arrow Right x=52 y=1
-Arrow Right x=53 y=1
-Arrow Right x=54 y=1
-Arrow Right x=55 y=1
-Arrow Right x=56 y=1
-Arrow Right x=57 y=1
-Arrow Right x=58 y=1
-Arrow Right x=59 y=1
-Arrow Right x=60 y=1
-Arrow Right x=61 y=1
-Arrow Right x=62 y=1
-Arrow Right x=63 y=1
-Arrow Right x=64 y=1
-Arrow Right x=65 y=1
-Arrow Right x=66 y=1
-Arrow Right x=67 y=1
-Arrow Down llen = 40
-This paragraph len = 113
-Case 2
-x=34 y=3
-Arrow Left x=33 y=3
-Arrow Left x=32 y=3
-Arrow Left x=31 y=3
-Arrow Up Previous llen: 40
-x=31 y=2
-Arrow Up Previous llen: 73
-x=31 y=1
-Arrow Left x=30 y=1
-Arrow Left x=29 y=1
-Arrow Left x=28 y=1
-Arrow Left x=27 y=1
-Arrow Left x=26 y=1
-Arrow Left x=25 y=1
-Arrow Left x=24 y=1
-Arrow Left x=23 y=1
-Arrow Left x=22 y=1
-Arrow Left x=21 y=1
-Arrow Left x=20 y=1
-Arrow Left x=19 y=1
-Arrow Left x=18 y=1
-Arrow Left x=17 y=1
-Arrow Left x=16 y=1
-Arrow Left x=15 y=1
-Arrow Left x=14 y=1
-Arrow Left x=13 y=1
-Arrow Left x=12 y=1
-Arrow Left x=11 y=1
-Arrow Up Previous llen: 21
-x=11 y=0
-Arrow Right x=12 y=0
-Arrow Right x=13 y=0
-Arrow Right x=0 y=1
-Arrow Right x=1 y=1
-Arrow Right x=2 y=1
-Arrow Right x=3 y=1
-Arrow Right x=4 y=1
-Arrow Left x=3 y=1
-Arrow Left x=2 y=1
-Arrow Left x=1 y=1
-Arrow Right x=2 y=1
-Arrow Right x=3 y=1
-Arrow Right x=4 y=1
-Arrow Right x=5 y=1
-Arrow Right x=6 y=1
-Arrow Right x=7 y=1
-Arrow Right x=8 y=1
-Arrow Right x=9 y=1
-Arrow Right x=10 y=1
-Arrow Right x=11 y=1
-Arrow Right x=12 y=1
-Arrow Right x=13 y=1
-Arrow Right x=14 y=1
-Arrow Right x=15 y=1
-Arrow Right x=16 y=1
-Arrow Right x=17 y=1
-Arrow Right x=18 y=1
-Arrow Right x=19 y=1
-Arrow Right x=20 y=1
-Arrow Right x=21 y=1
-Arrow Right x=22 y=1
-Arrow Right x=23 y=1
-Arrow Right x=24 y=1
-Arrow Down llen = 73
-This paragraph len = 113
+Arrow Down llen = 71
+This paragraph len = 242
 Case 3
-x=24 y=2
-Arrow Right x=25 y=2
-Arrow Down llen = 40
-This paragraph len = 113
-Case 2
-x=25 y=3
-Arrow Down llen = 76
-This paragraph len = 76
-Case 2
-x=20 y=4
-Arrow Right x=0 y=5
-Arrow Right x=1 y=5
-Arrow Up Previous llen: 21
-x=1 y=4
-Arrow Up Previous llen: 76
-x=1 y=3
-Arrow Right x=2 y=3
-Arrow Right x=3 y=3
-Arrow Right x=4 y=3
-Arrow Right x=5 y=3
-Arrow Right x=6 y=3
-Arrow Right x=7 y=3
-Arrow Right x=8 y=3
-Arrow Right x=9 y=3
-Arrow Right x=10 y=3
-Arrow Right x=11 y=3
-Arrow Right x=12 y=3
-Arrow Right x=13 y=3
-Arrow Right x=14 y=3
-Arrow Right x=15 y=3
-Arrow Right x=16 y=3
-Arrow Right x=17 y=3
-Arrow Left x=16 y=3
-Arrow Left x=15 y=3
-Arrow Up Previous llen: 40
-x=15 y=2
-Arrow Right x=16 y=2
-Arrow Up Previous llen: 73
-x=16 y=1
-Arrow Up Previous llen: 21
-x=16 y=0
-Arrow Down llen = 21
-This paragraph len = 113
+x=0 y=1
+Arrow Down llen = 69
+This paragraph len = 242
 Case 3
-x=16 y=1
-Arrow Left x=15 y=1
-Arrow Left x=14 y=1
-Arrow Left x=13 y=1
-Arrow Left x=12 y=1
-Arrow Left x=11 y=1
-Arrow Left x=10 y=1
-Arrow Left x=9 y=1
-Arrow Left x=8 y=1
-Arrow Left x=7 y=1
-Arrow Left x=6 y=1
-Arrow Up Previous llen: 21
-x=6 y=0
-Arrow Left x=5 y=0
-Arrow Down llen = 21
-This paragraph len = 20
-Case 2
-x=5 y=1
-Arrow Left x=4 y=1
-Arrow Left x=3 y=1
-Arrow Left x=2 y=1
-Arrow Left x=1 y=1
-Arrow Left x=0 y=1
-Arrow Right x=1 y=1
-Arrow Right x=2 y=1
-Arrow Right x=3 y=1
-Arrow Right x=4 y=1
-Arrow Right x=5 y=1
-Arrow Right x=6 y=1
-Arrow Right x=7 y=1
-Arrow Right x=8 y=1
-Arrow Right x=9 y=1
-Arrow Right x=10 y=1
-Arrow Right x=11 y=1
-Arrow Right x=12 y=1
-Arrow Right x=13 y=1
-Arrow Right x=14 y=1
-Arrow Right x=15 y=1
-Arrow Right x=16 y=1
-Arrow Right x=17 y=1
-Arrow Right x=18 y=1
-Arrow Right x=19 y=1
-Arrow Right x=20 y=1
-Arrow Right x=21 y=1
-Arrow Right x=22 y=1
-Arrow Right x=23 y=1
-Arrow Right x=24 y=1
-Arrow Right x=25 y=1
-Arrow Right x=26 y=1
-Arrow Right x=27 y=1
-Arrow Right x=28 y=1
-Arrow Right x=29 y=1
-Arrow Right x=30 y=1
-Arrow Right x=31 y=1
-Arrow Right x=32 y=1
-Arrow Right x=33 y=1
-Arrow Right x=34 y=1
-Arrow Right x=35 y=1
-Arrow Right x=36 y=1
-Arrow Right x=37 y=1
-Arrow Right x=38 y=1
-Arrow Right x=39 y=1
-Arrow Right x=40 y=1
-Arrow Right x=41 y=1
-Arrow Right x=42 y=1
-Arrow Right x=43 y=1
-Arrow Right x=44 y=1
-Arrow Right x=45 y=1
-Arrow Right x=46 y=1
-Arrow Right x=47 y=1
-Arrow Right x=48 y=1
-Arrow Right x=49 y=1
-Arrow Right x=50 y=1
-Arrow Right x=51 y=1
-Arrow Right x=52 y=1
-Arrow Right x=53 y=1
-Arrow Right x=54 y=1
-Arrow Right x=55 y=1
-Arrow Right x=56 y=1
-Arrow Right x=57 y=1
-Arrow Right x=58 y=1
-Arrow Right x=59 y=1
-Arrow Right x=60 y=1
-Arrow Right x=61 y=1
-Arrow Right x=62 y=1
-Arrow Right x=63 y=1
-Arrow Right x=64 y=1
-Arrow Right x=65 y=1
-Arrow Right x=66 y=1
-Arrow Right x=67 y=1
-Arrow Right x=68 y=1
-Arrow Right x=69 y=1
-Arrow Right x=70 y=1
-Arrow Right x=71 y=1
-Arrow Right x=72 y=1
-Arrow Right x=73 y=1
-Arrow Right x=0 y=2
-Arrow Right x=1 y=2
-Arrow Right x=2 y=2
-Arrow Right x=3 y=2
-Arrow Right x=4 y=2
-Arrow Right x=5 y=2
-Arrow Right x=6 y=2
-Arrow Right x=7 y=2
-Arrow Down llen = 40
-This paragraph len = 113
-Case 2
-x=7 y=3
-Arrow Left x=6 y=3
-Arrow Down llen = 76
-This paragraph len = 76
-Case 2
-x=6 y=4
-Arrow Right x=7 y=4
-Arrow Right x=8 y=4
-Arrow Up Previous llen: 76
-x=8 y=3
-Arrow Left x=7 y=3
-Arrow Up Previous llen: 40
-x=7 y=2
-Arrow Down llen = 40
-This paragraph len = 113
-Case 2
-x=7 y=3
-Arrow Left x=6 y=3
-Arrow Down llen = 76
-This paragraph len = 76
-Case 2
-x=6 y=4
-Arrow Left x=5 y=4
-Arrow Left x=4 y=4
-Arrow Left x=3 y=4
-Arrow Left x=2 y=4
-Arrow Left x=1 y=4
-Arrow Left x=0 y=4
-Arrow Up Previous llen: 76
+x=0 y=2
+Arrow Down llen = 68
+This paragraph len = 242
+Case 3
 x=0 y=3
-Undo
-Arrow Down llen = 76
-This paragraph len = 76
+Arrow Down llen = 31
+This paragraph len = 242
 Case 2
 x=0 y=4
-Arrow Down llen = 21
-This paragraph len = 20
-Case 2
+Arrow Down llen = -1
+This paragraph len = 0
+Case 1
 x=0 y=5
-Arrow Down llen = 24
-This paragraph len = 23
+Arrow Right x=1 y=5
+Arrow Down llen = 68
+This paragraph len = 99
+Case 3
+x=1 y=6
+Arrow Right x=2 y=6
+Arrow Right x=3 y=6
+Arrow Right x=4 y=6
+llen = 30
+This paragraph len = 73
 Case 2
+Arrow Right x=1 y=7
+Step back with space at end of row
+Cursor out of bounds X: 233 for row length: 233
+Arrow Down llen = 29
+This paragraph len = 98
+Case 2
+x=0 y=7
+Arrow Down llen = -1
+This paragraph len = 0
+Case 1
+x=0 y=8
+Arrow Down llen = 6
+This paragraph len = 6
+Case 2
+x=0 y=9
+Arrow Down llen = -1
+This paragraph len = 0
+Case 1
+x=0 y=10
+Arrow Up Previous llen: 0
+x=0 y=9
+Arrow Up Previous llen: 7
+x=0 y=8
+Arrow Up Previous llen: 0
+x=0 y=7
+Arrow Up Previous llen: 30
 x=0 y=6
 Arrow Right x=1 y=6
 Arrow Right x=2 y=6
 Arrow Right x=3 y=6
 Arrow Right x=4 y=6
 Arrow Right x=5 y=6
-Arrow Right x=6 y=6
-Arrow Right x=7 y=6
-Arrow Right x=0 y=7
-Arrow Right x=1 y=7
-Arrow Right x=2 y=7
-Arrow Right x=3 y=7
-Arrow Right x=4 y=7
-Arrow Right x=5 y=7
-Arrow Right x=6 y=7
-Arrow Right x=7 y=7
-Arrow Right x=8 y=7
-Arrow Right x=9 y=7
-Arrow Right x=10 y=7
-Arrow Right x=11 y=7
-Arrow Right x=12 y=7
-Arrow Right x=13 y=7
-Arrow Right x=14 y=7
-Arrow Right x=15 y=7
-Arrow Right x=16 y=7
-Arrow Right x=17 y=7
-Arrow Right x=18 y=7
-Arrow Right x=19 y=7
-Arrow Down llen = 21
-This paragraph len = 20
-Case 2
-x=19 y=8
-Arrow Up Previous llen: 21
-x=19 y=7
-Arrow Right x=20 y=7
+Arrow Left x=4 y=6

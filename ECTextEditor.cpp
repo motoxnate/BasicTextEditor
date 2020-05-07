@@ -48,22 +48,19 @@ void ECTextEditor::ParseKeyCode(int c)
     else if (c >= 32 && c <= 126)
     { // Letters and characters
         docCtrl.InsertChar(c);
-        // int dy = document.GetCY();
+        int dy = textView.GetCursorY();
         StepCursorForward();
-        // dy = document.GetCY() - dy;
-        // if(dy != 0) StepCursorForward();
+        dy = textView.GetCursorY() - dy;
+        if(dy > 0) SetCursorWordEnd();
         UpdateTextDisplay();
     }
     else if (c == BACKSPACE)
     { // Backspace
-        int dy = document.GetCY();
         docCtrl.Backspace();
-        dy = dy - document.GetCY();
+        int dy = textView.GetCursorY();
         StepCursorBack();
-        if(dy != 0) {
-            document.SetCX(0);
-            assert(UpdateCursor(0, textView.GetCursorY()));
-        }
+        dy = dy - textView.GetCursorY();
+        if(dy != 0) ; //SetCursorLineEnd();
         UpdateTextDisplay();
     }
     else if (c >= 0 && c <= 27)
@@ -179,14 +176,14 @@ bool ECTextEditor ::StepCursorBack()
                 cerr << "Cursor reached first character" << endl;
                 return false;
             } else {
-                cy = textView.GetRowNumInView() - 1;
-                cx = GetLenRow(cy);
+                cy = textView.GetRowNumInView();
+                cx = GetLenRow(cy) - 1;
             }
         } // Set cursorX to last char of previous row
         else
         {
             if(document.GetAllRows()[dy].back() != ' ') {
-                cx = GetLenRow(cy);
+                cx = GetLenRow(cy) - 1;
                 cerr << "Step back with space at end of row" << endl;
             }
             else cx = GetLenRow(cy);
@@ -255,12 +252,12 @@ bool ECTextEditor ::StepCursorDown()
         cerr << "Cursor has reached end of document" << endl;
         return false;
     }   // If cursor can move down, but the line is shorter than cursorX
-    else if (document.GetLenRowFormatted(cy) < cx)
+    else if (document.GetCurrentPage()[cy].size() < cx)
     {
         if(document.GetAllRows()[dy].back() != ' ') {
-            cx = document.GetLenRowFormatted(cy) - 1;
+            cx = document.GetCurrentPage()[cy].size() - 1;
         }
-        else cx = document.GetLenRowFormatted(cy);
+        else cx = document.GetCurrentPage()[cy].size();
         if(cx < 0) cx = 0;
     }
     if (!UpdateCursor(cx, cy))
@@ -279,6 +276,15 @@ bool ECTextEditor ::SetCursorLineEnd()
     int cy = textView.GetCursorY();
     cx = document.GetLenRow(cy);
     if (!UpdateCursor(cx, cy))
+        return false;
+    return true;
+}
+
+bool ECTextEditor:: SetCursorWordEnd() {
+    int x = textView.GetCursorX();
+    string line = document.GetCurrentPage()[textView.GetCursorY()];
+    while(line[x] != ' ') x++;
+    if (!UpdateCursor(x, textView.GetCursorY()))
         return false;
     return true;
 }

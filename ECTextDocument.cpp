@@ -369,8 +369,9 @@ bool ECTextDocument:: StepCursorUp() {
         } 
         // If the previous row is multiple displayed rows
         else if (GetLenRow(y) > textView->GetColNumInView())
-        {
-            x = x + (floor(GetLenRow(y) / llen) * llen);
+        {   // Length of the entire row - (length of last formatted row - viewCX)
+            x = GetLenRow(y) - (GetPrevViewRow().size()-1 - x);
+
             if (x > GetLenRow(y)) x = GetLenRow(y);
         }
         // If the previous row is shorter than the cursor
@@ -390,10 +391,11 @@ bool ECTextDocument:: StepCursorUp() {
 bool ECTextDocument:: StepCursorDown() {
     int x = cx;
     int y = cy;
-    int llen = currentPage[textView->GetCursorY()].size();
+    int llen = currentPage[textView->GetCursorY()].size() - 1;
+    int nextllen = currentPage[textView->GetCursorY()].size() - 1;
     cerr << "llen = " << llen << endl;
     cerr << "This paragraph len = " << GetLenRow(y) << endl;
-    if(llen == 0) {
+    if(llen <= 0) {
         cerr << "Case 1" << endl;
         y += 1;
         x = 0;
@@ -401,8 +403,8 @@ bool ECTextDocument:: StepCursorDown() {
             cerr << "[Document] Cursor has reached the end of the document" << endl;
             return false;
         }
-    }
-    else if(x + llen >= GetLenRow(y)) 
+    }   // x + remainder of line length <+ beginning of next line up to x>
+    else if(x + (llen - textView->GetCursorX() + 1) >= GetLenRow(y)) 
     {   // If going down a row would go beyond the current row
         cerr << "Case 2" << endl;
         y += 1;
@@ -416,7 +418,8 @@ bool ECTextDocument:: StepCursorDown() {
     } else 
     {       // If going down stays within the current row
         cerr << "Case 3" << endl;
-        x += llen;
+        x += llen + 1;
+        if(x > GetLenRow(y)) x = GetLenRow(y);
     }
     if(!UpdateCursor(x, y)) return false;
     return true;
@@ -522,4 +525,8 @@ void ECTextDocument:: Newlines() {
         }
     }
     exit(0);
+}
+
+string ECTextDocument:: GetPrevViewRow() {
+     return currentPage[textView->GetCursorY() - 1];
 }

@@ -113,8 +113,9 @@ private:
     ECTextViewImp *textView;
     ECFileIO *fileIO;
 
-    bool UpdateCursor(int x, int y);                // Try to set the document cursor
+    bool UpdateCursor(int x, int y);     // Try to set the document cursor
     void Newlines();                    // Search for newlines. Testing
+    string GetPrevViewRow();     // Return a row from the view at Y
 };
 
 #endif
