@@ -18,13 +18,14 @@ public:
 
 private:
     void ParseKeyCode(int c);
+    void Backspace();                   // For key code backspace
 
     bool StepCursorForward();
     bool StepCursorBack();
     bool StepCursorUp();
     bool StepCursorDown();
     bool SetCursor(int x, int y);       // Set the cursor to the desired position
-    bool SetCursorLineEnd();            // Used to place the cursor after undo / redo.
+    bool SetCursorLineEnd();            // Set the cursor to the end of the current line.
     bool SetCursorWordEnd();            // Set the cursor to the end of the current word.
     bool UpdateCursor(int cx, int cy);  // Update cursor position if valid.
 

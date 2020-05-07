@@ -101,6 +101,7 @@ public:
     void FormatDocument();              // Format the document text and store in formattedDocument
     vector<string> GetFormattedDocument();    // Returns the formatted document ready for display
     vector<string> GetCurrentPage();    // Returns the formatted text to display a page.
+    char GetCharAt(int x, int y);       // Return a char from the current page at x,y.
 
 private:
     int cx, cy;                         // Cursor X and Y of the UNFORMATTED document. This is where edits need to happen.

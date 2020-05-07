@@ -56,12 +56,7 @@ void ECTextEditor::ParseKeyCode(int c)
     }
     else if (c == BACKSPACE)
     { // Backspace
-        docCtrl.Backspace();
-        int dy = textView.GetCursorY();
-        StepCursorBack();
-        dy = dy - textView.GetCursorY();
-        if(dy != 0) ; //SetCursorLineEnd();
-        UpdateTextDisplay();
+        Backspace();
     }
     else if (c >= 0 && c <= 27)
     { // Special Characters
@@ -83,13 +78,11 @@ void ECTextEditor::ParseKeyCode(int c)
         case CTRL_Z:
             cerr << "Undo" << endl;
             docCtrl.Undo();
-            // SetCursorLineEnd();
             UpdateTextDisplay();
             break;
         case CTRL_Y:
             cerr << "Redo" << endl;
             docCtrl.Redo();
-            // SetCursorLineEnd();
             UpdateTextDisplay();
             break;
         }
@@ -123,6 +116,35 @@ void ECTextEditor::ParseKeyCode(int c)
             UpdateTextDisplay();
             break;
         }
+    }
+}
+
+/* Backspace command logic */
+void ECTextEditor:: Backspace() {
+    char prev = document.GetCharAt(textView.GetCursorX()-2, textView.GetCursorY());
+    docCtrl.Backspace();
+    if(document.GetCX() == 0)
+        StepCursorUp();
+    else StepCursorBack();
+    int cx = textView.GetCursorX();
+    int cy = textView.GetCursorY();
+    // If the word moves back to the last line, it will happen on display update.
+    // Check the character previous to the one removed. If it changes, then go to the end of the word.
+    // cerr << "Prev: " << prev << " Update: ";
+    UpdateTextDisplay();
+    char prev2 = document.GetCharAt(textView.GetCursorX()-1, textView.GetCursorY());
+    // cerr << prev2 << endl;
+    // Error check: if x is now beyond the end of the row, must move back to prev
+    if(cx > document.GetCurrentPage()[cy].size()) {
+        if(cy >= 1) {
+            // cerr << "Backspace fix" << endl;
+            textView.SetCursorY(cy - 1);
+            SetCursorLineEnd();
+        }
+    }
+    else if(prev != prev2) {
+        textView.SetCursorY(cy - 1);
+        SetCursorLineEnd();
     }
 }
 
@@ -274,7 +296,12 @@ bool ECTextEditor ::SetCursorLineEnd()
 {
     int cx = textView.GetCursorX();
     int cy = textView.GetCursorY();
-    cx = document.GetLenRow(cy);
+    if(document.GetCurrentPage()[cy].back() == ' ') {
+        cx = GetLenRow(cy) - 1;
+        cerr << "Step back with space at end of row" << endl;
+    }
+    else cx = GetLenRow(cy);
+    if(cx < 0) cx = 0;
     if (!UpdateCursor(cx, cy))
         return false;
     return true;
@@ -305,7 +332,7 @@ bool ECTextEditor ::UpdateCursor(int cx, int cy)
         cerr << "Cursor out of bounds Y: " << cy << " for document size: " << document.GetNumRowsFormatted() << endl;
         return false;
     }
-    else if (cx > document.GetFormattedDocument()[cy].size())
+    else if (cx > document.GetCurrentPage()[cy].size())
     {
         cerr << "Cursor out of bounds X: " << cx << " for row length: " << document.GetLenRow(cy) << endl;
         return false;
@@ -340,6 +367,7 @@ void ECTextEditor ::UpdateTextDisplay()
 {
     textView.InitRows();
     formattedPage.clear();
+    formattedPage.resize(0);
     for (string s : document.GetCurrentPage()) {
         textView.AddRow(s);
         formattedPage.push_back(s);

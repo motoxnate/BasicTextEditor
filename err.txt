@@ -1,16 +1,16 @@
-Arrow Down llen = 71
+Arrow Down llen = 76
 This paragraph len = 242
 Case 3
 x=0 y=1
-Arrow Down llen = 69
+Arrow Down llen = 76
 This paragraph len = 242
 Case 3
 x=0 y=2
-Arrow Down llen = 68
+Arrow Down llen = 75
 This paragraph len = 242
 Case 3
 x=0 y=3
-Arrow Down llen = 31
+Arrow Down llen = 12
 This paragraph len = 242
 Case 2
 x=0 y=4
@@ -18,47 +18,140 @@ Arrow Down llen = -1
 This paragraph len = 0
 Case 1
 x=0 y=5
-Arrow Right x=1 y=5
-Arrow Down llen = 68
-This paragraph len = 99
+Arrow Down llen = 72
+This paragraph len = 86
 Case 3
-x=1 y=6
-Arrow Right x=2 y=6
-Arrow Right x=3 y=6
-Arrow Right x=4 y=6
-llen = 30
-This paragraph len = 73
-Case 2
-Arrow Right x=1 y=7
-Step back with space at end of row
-Cursor out of bounds X: 233 for row length: 233
-Arrow Down llen = 29
-This paragraph len = 98
-Case 2
-x=0 y=7
-Arrow Down llen = -1
-This paragraph len = 0
-Case 1
-x=0 y=8
-Arrow Down llen = 6
-This paragraph len = 6
-Case 2
-x=0 y=9
-Arrow Down llen = -1
-This paragraph len = 0
-Case 1
-x=0 y=10
-Arrow Up Previous llen: 0
-x=0 y=9
-Arrow Up Previous llen: 7
-x=0 y=8
-Arrow Up Previous llen: 0
-x=0 y=7
-Arrow Up Previous llen: 30
 x=0 y=6
-Arrow Right x=1 y=6
-Arrow Right x=2 y=6
-Arrow Right x=3 y=6
-Arrow Right x=4 y=6
-Arrow Right x=5 y=6
-Arrow Left x=4 y=6
+Arrow Down llen = 13
+This paragraph len = 86
+Case 2
+x=0 y=7
+Arrow Down llen = -1
+This paragraph len = 0
+Case 1
+x=0 y=8
+Arrow Down llen = 72
+This paragraph len = 167
+Case 3
+x=0 y=9
+Arrow Down llen = 78
+This paragraph len = 167
+Case 3
+x=0 y=10
+Arrow Down llen = 15
+This paragraph len = 167
+Case 2
+x=0 y=11
+Arrow Down llen = -1
+This paragraph len = 0
+Case 1
+x=0 y=12
+Arrow Down llen = 78
+This paragraph len = 193
+Case 3
+x=0 y=13
+Arrow Down llen = 76
+This paragraph len = 193
+Case 3
+x=0 y=14
+Arrow Down llen = 37
+This paragraph len = 193
+Case 2
+x=0 y=15
+Arrow Down llen = -1
+This paragraph len = 0
+Case 1
+x=0 y=16
+Arrow Down llen = 77
+This paragraph len = 271
+Case 3
+x=0 y=17
+Arrow Down llen = 76
+This paragraph len = 271
+Case 3
+x=0 y=18
+Arrow Down llen = 78
+This paragraph len = 271
+Case 3
+x=0 y=19
+Arrow Down llen = 37
+This paragraph len = 271
+Case 2
+x=0 y=20
+Arrow Down llen = -1
+This paragraph len = 0
+Case 1
+x=0 y=21
+Arrow Down llen = -1
+This paragraph len = 0
+Case 1
+x=0 y=22
+Arrow Down llen = -1
+This paragraph len = 0
+Case 1
+Go to next page: Page = 1
+x=0 y=0
+Arrow Down llen = 44
+This paragraph len = 44
+Case 2
+x=0 y=1
+Arrow Up Previous llen: 45
+x=0 y=0
+Arrow Up Previous llen: 544503909
+x=0 y=22
+Arrow Up Previous llen: 0
+x=0 y=21
+Arrow Up Previous llen: 0
+x=0 y=20
+Arrow Up Previous llen: 38
+x=0 y=19
+Arrow Up Previous llen: 79
+x=0 y=18
+Arrow Up Previous llen: 77
+x=0 y=17
+Arrow Up Previous llen: 78
+x=0 y=16
+Arrow Up Previous llen: 0
+x=0 y=15
+Arrow Up Previous llen: 38
+x=0 y=14
+Arrow Up Previous llen: 77
+x=0 y=13
+Arrow Up Previous llen: 79
+x=0 y=12
+Arrow Up Previous llen: 0
+x=0 y=11
+Arrow Up Previous llen: 16
+x=0 y=10
+Arrow Up Previous llen: 79
+x=0 y=9
+Arrow Up Previous llen: 73
+x=0 y=8
+Arrow Up Previous llen: 0
+x=0 y=7
+Arrow Up Previous llen: 14
+x=0 y=6
+Arrow Up Previous llen: 73
+x=0 y=5
+Arrow Up Previous llen: 0
+x=0 y=4
+Arrow Up Previous llen: 13
+x=0 y=3
+Arrow Up Previous llen: 76
+x=0 y=2
+Arrow Up Previous llen: 77
+x=0 y=1
+Arrow Up Previous llen: 77
+x=0 y=0
+Arrow Up Previous llen: 1919377778
+[Document] Cursor reached first line
+x=0 y=0
+Arrow Up Previous llen: 1919377778
+[Document] Cursor reached first line
+x=0 y=0
+Arrow Up Previous llen: 1919377778
+[Document] Cursor reached first line
+x=0 y=0
+Arrow Up Previous llen: 1919377778
+[Document] Cursor reached first line
+x=0 y=0

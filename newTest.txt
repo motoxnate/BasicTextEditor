@@ -1,9 +1,13 @@
 Insert here at the beginning of the document. To facilitate the testing, you must ensure your editor reads and writes the file in the correct format. The following is a list of items that we expect your program should do for file input/output
 
-Lets try typing a new paragraph that spans two lines here. This will test No way it actually works!
+Lets try inserting some text here. Typing a new paragraph that spans two linesyes test
 
-Would.
+Would. Lets test writing some text into this document. If I were to keep writing a document such as this in the real world, I would sometimes have to go back and edit.
 
-The editor takes a file name as the single argument. It reads from the file to initialize the docu- ment. At exit, the editor writes out the content of the document into the file. No confirmation with the user about output is needed.
+The editor takes a file name as the single argument. It reads from the file to the document. At exit, the editor writes out the content of the confirmation with the user about output is needed.
 
 The file format must be in plain text, which can allow text editor such as vi to open. Each paragraph in the text document is stored as a single line with the newline symbol in the end in the file, and (ii) do not add separators such as blank rows between paragraph rows.
+
+
+
+Testing a newline with insertion at the end.

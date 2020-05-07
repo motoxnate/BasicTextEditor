@@ -495,13 +495,17 @@ vector<string> ECTextDocument:: GetCurrentPage() {
     currentPage.clear();
     vector<string> page;
     int pagesize = textView->GetRowNumInView();
-    for(int i=0; i<pagesize && i<formattedDocument.size(); i++) {
+    for(int i=0; i<pagesize && (pageNo * pagesize) + i < formattedDocument.size(); i++) {
         page.push_back(formattedDocument[(pageNo * pagesize) + i]);
     }
     currentPage = page;
     return page;
 }
 
+/* Get a char from the current page at x,y */
+char ECTextDocument:: GetCharAt(int x, int y) {
+    return currentPage[y][x];
+}
 
 /* Private member functions */
 bool ECTextDocument:: UpdateCursor(int x, int y) {
